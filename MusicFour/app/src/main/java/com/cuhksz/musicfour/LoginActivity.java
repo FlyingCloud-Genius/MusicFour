@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * TODO: remove after connecting to a real authentication system.
      */
     private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "116010104:19971003", "bar@example.com:world"
+            "116010104@link.cuhk.edu.cn:19971003", "116010264@link.cuhk.edu.cn:123456"
     };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -194,12 +194,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
-        return email.contains("@");
+        return true;
     }
 
     private boolean isPasswordValid(String password) {
         //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return true;
     }
 
     /**
@@ -326,11 +326,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
 
             // TODO: register the new account here.
-            Log.v("PROJECT4001: ","link to main activity");
-            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-            startActivity(intent);
+//            Log.v("PROJECT4001: ","link to main activity");
+//            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+//            startActivity(intent);
 
-            return true;
+            return false;
         }
 
         @Override
@@ -340,6 +340,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 finish();
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                LoginActivity.this.startActivity(intent);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
