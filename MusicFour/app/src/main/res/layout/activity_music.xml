@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MusicActivity">
 
     <SeekBar
         android:id="@+id/sb"
@@ -83,5 +83,12 @@
         android:text="previous"
         app:layout_constraintEnd_toStartOf="@+id/pauseplay"
         app:layout_constraintTop_toTopOf="@+id/pauseplay" />
+
+    <Button
+        android:id="@+id/module"
+        android:layout_width="97dp"
+        android:layout_height="51dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

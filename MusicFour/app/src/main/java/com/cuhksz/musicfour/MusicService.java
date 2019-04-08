@@ -1,6 +1,5 @@
 package com.cuhksz.musicfour;
 
-import android.app.Activity;
 import android.app.Service;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -44,6 +43,8 @@ public class MusicService extends Service {
         try {
             if (player == null) {
                 player = new MediaPlayer();
+                player.setOnCompletionListener(new MyOnCompletionListener());
+
             }
 
             player.setDataSource(music);
@@ -71,7 +72,6 @@ public class MusicService extends Service {
     }
 
     private class MyOnCompletionListener implements MediaPlayer.OnCompletionListener {
-
         /**
          * Called when the end of a media source is reached during playback.
          *
@@ -79,25 +79,22 @@ public class MusicService extends Service {
          */
         @Override
         public void onCompletion(MediaPlayer mp) {
-            if (!mp.isPlaying()) {
-                stop();
-                if (playingModule == "RandomSong") {
-                    MainActivity.currentSongIndex = new Random().nextInt(MainActivity.musics.length);
-                } // randomly play
-                else if (playingModule == "SameSong") {
+            stop();
+            if (playingModule == "random") {
+                MusicActivity.currentSongIndex = new Random().nextInt(MusicActivity.musics.length);
+            } // randomly play
+            else if (playingModule == "same") {
 
-                } // play the same song
-                else //play the next song again
-                {
-                    MainActivity.currentSongIndex += 1;
-                    if (MainActivity.currentSongIndex == MainActivity.musics.length) {
-                        MainActivity.currentSongIndex = 0;
-                    }
+            } // play the same song
+            else //play the next song again
+            {
+                MusicActivity.currentSongIndex += 1;
+                if (MusicActivity.currentSongIndex == MusicActivity.musics.length) {
+                    MusicActivity.currentSongIndex = 0;
                 }
-                String song = MainActivity.currentSong();
-                MusicService.this.play(song, playingModule);
-
             }
+            String song = MusicActivity.currentSong();
+            MusicService.this.play(song, playingModule);
         }
     }
 
@@ -131,15 +128,14 @@ public class MusicService extends Service {
                     if (player != null) {
                         int duration = player.getDuration();
                         int currentPosition = player.getCurrentPosition();
-
-                        Message message = MainActivity.handler.obtainMessage();
+                        Message message = MusicActivity.handler.obtainMessage();
 
                         Bundle bundle = new Bundle();
                         bundle.putInt("duration", duration);
                         bundle.putInt("currentPosition", currentPosition);
                         message.setData(bundle);
 
-                        MainActivity.handler.sendMessage(message);
+                        MusicActivity.handler.sendMessage(message);
                     }
                 }
             }, 5, 500);

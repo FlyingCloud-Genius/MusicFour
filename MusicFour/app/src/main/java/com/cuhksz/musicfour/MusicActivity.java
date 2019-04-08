@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 import java.util.Random;
 
-public class MainActivity extends Activity {
+public class MusicActivity extends Activity {
     MyServiceConn conn;
     Intent intent;
     MusicInterface mi;
@@ -29,17 +29,18 @@ public class MainActivity extends Activity {
     private static TextView totalTime;
     private static Button play;
     private static Button pauseplay;
+    private static Button module;
     public static String[] musics = {"/sdcard/Music/胡歌 - 忘记时间.mp3",
             "/sdcard/Music/7AND5 - Remember.mp3",
             "/sdcard/Music/Coldplay - Viva La Vida.mp3",
             "/sdcard/Music/Fall Out Boy - Immortals.mp3"};
     public static int currentSongIndex = 0;
-    public String playingModule;
+    public String playingModule; // next same random
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_music);
 
         //asking for authority
         if (Build.VERSION.SDK_INT >= 23) {
@@ -58,9 +59,13 @@ public class MainActivity extends Activity {
         totalTime = (TextView) findViewById(R.id.total_time);
         play = (Button) findViewById(R.id.start);
         pauseplay = (Button) findViewById(R.id.pauseplay);
+        module = (Button) findViewById(R.id.module);
         MyOnClickListener listener =  new MyOnClickListener();
         play.setOnClickListener(listener);
         pauseplay.setOnClickListener(listener);
+        module.setOnClickListener(listener);
+        module.setText("next");
+        playingModule = "next";
 
         //intent object
         intent = new Intent(this, MusicService.class);
@@ -142,6 +147,18 @@ public class MainActivity extends Activity {
                     break;
                 case R.id.start:
                     mi.play(musics[currentSongIndex], playingModule);
+                    break;
+                case R.id.module:
+                    if (module.getText() == "next") {
+                        module.setText("random");
+                        playingModule = "random";
+                    } else if (module.getText() == "random") {
+                        module.setText("same");
+                        playingModule = "same";
+                    } else {
+                        module.setText("next");
+                        playingModule = "next";
+                    }
             }
         }
     }
@@ -151,16 +168,34 @@ public class MainActivity extends Activity {
     }
 
     public void previousSong(View view) {
-        currentSongIndex -= 1;
-        if (currentSongIndex == -1) {
-            currentSongIndex = musics.length - 1;
+        if (playingModule == "random") {
+            int previousSongIndex = currentSongIndex;
+            randomIndex();
+            while (currentSongIndex == previousSongIndex) {
+                randomIndex();
+            }
+        } else {
+            currentSongIndex -= 1;
+            if (currentSongIndex == -1) {
+                currentSongIndex = musics.length - 1;
+            }
         }
         mi.stop();
         mi.play(musics[currentSongIndex], playingModule);
     }
 
     public void nextSong(View view) {
-        nextIndex();
+        if (playingModule == "next") {
+            nextIndex();
+        }else if (playingModule == "same") {
+            nextIndex();
+        }else {
+            int previousSongIndex = currentSongIndex;
+            randomIndex();
+            while (currentSongIndex == previousSongIndex) {
+                randomIndex();
+            }
+        }
         mi.stop();
         mi.play(musics[currentSongIndex], playingModule);
     }
@@ -207,4 +242,3 @@ public class MainActivity extends Activity {
         return musics[currentSongIndex];
     }
 }
-
