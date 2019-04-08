@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * TODO: remove after connecting to a real authentication system.
      */
     private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "116010104@link.cuhk.edu.cn:19971003", "116010264@link.cuhk.edu.cn:123456"
+            "116010104@link.cuhk.edu.cn:19971003", "116010264@link.cuhk.edu.cn:123456","1:1"
     };
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -340,7 +340,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 finish();
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                Intent intent = new Intent(LoginActivity.this, MusicListActivity.class);
                 LoginActivity.this.startActivity(intent);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
