@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class Music {
     private Map<String, Object> map = new HashMap<String,Object>();
-    private static final List<Map<String, Object>> musics= new ArrayList<Map<String, Object>>();
+    private static final ArrayList<Map<String, Object>> musics= new ArrayList<Map<String, Object>>();
 
     private Music(int musicID, String music, String musician){
         this.map.put("musicID", musicID);
@@ -26,7 +26,7 @@ public class Music {
         this.map.put("imageID", imageID);
     }
 
-    public static List<Map<String,Object>> getMusics(){
+    public static ArrayList<Map<String,Object>> buildMusics(){
         Music music1 = new Music(00001, "We Are Young", "Fun.,Janelle Monae", R.drawable.music00001);
         musics.add(music1.map);
         Music music2 = new Music(00002, "青鸟", "生物股长", R.drawable.music00002);
@@ -39,6 +39,10 @@ public class Music {
         musics.add(music5.map);
         Music music6 = new Music(00006, "시련의 나날들","金致焕", R.drawable.music00006);
         musics.add(music6.map);
+        return musics;
+    }
+
+    public static ArrayList<Map<String, Object>> getMusics(){
         return musics;
     }
 }
