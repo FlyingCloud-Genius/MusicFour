@@ -8,5 +8,5 @@ public interface MusicInterface {
     void stop();
 
     void seekTo(int progress);
-}
 
+}
