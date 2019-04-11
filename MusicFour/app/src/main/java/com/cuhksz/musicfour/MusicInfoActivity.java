@@ -26,10 +26,11 @@ public class MusicInfoActivity extends AppCompatActivity {
         }
 
         ImageView photo = (ImageView) findViewById(R.id.musicInfoPhoto);
-        TextView name = (TextView) findViewById(R.id.musicInfoName);
-        TextView introduction = (TextView) findViewById(R.id.musicInfoIntroduction);
+        TextView musicName = (TextView) findViewById(R.id.musicInfoMusic);
+        TextView musician = (TextView) findViewById(R.id.musicInfoMusician);
 
         photo.setImageResource((int)music.get("imageID"));
-        name.setText((String)music.get("music"));
+        musicName.setText((String)music.get("music"));
+        musician.setText((String)music.get("musician"));
     }
 }
