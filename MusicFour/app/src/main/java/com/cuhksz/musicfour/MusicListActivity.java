@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class MusicListActivity extends AppCompatActivity {
     private static final String MUSICID = "musicID";
@@ -19,6 +22,8 @@ public class MusicListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music_list);
+
+        Music.buildMusics();
 
         SimpleAdapter adapter = new SimpleAdapter(this, Music.getMusics(), R.layout.music_list_item,
                 new String[]{"music", "musician"}, new int[]{R.id.musicListItemMusicName, R.id.musicListItemMusicianName});
@@ -39,7 +44,7 @@ public class MusicListActivity extends AppCompatActivity {
                 Intent intent = new Intent(MusicListActivity.this, MusicOperation.class);
                 intent.putExtra(MUSICID, (int)Music.getMusics().get(i).get("musicID"));
                 startActivity(intent);
-                return false;
+                return true;
             }
         });
     }
