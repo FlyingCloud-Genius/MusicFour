@@ -241,4 +241,15 @@ public class MusicActivity extends Activity {
     public static String currentSong() {
         return musics[currentSongIndex];
     }
+
+    public void onClickToMusicList(View view) {
+        Intent intentToMusicList = new Intent(MusicActivity.this, MusicListActivity.class);
+        startActivity(intentToMusicList);
+    }
+
+    public void onClickToComment(View view) {
+        Intent intentToComment = new Intent(MusicActivity.this, MusicCommentActivity.class);
+        startActivity(intentToComment);
+    }
+
 }

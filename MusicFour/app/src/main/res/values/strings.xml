@@ -4,7 +4,7 @@
     <string name="title_activity_music">MusicActivity</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">WOW</string>
-    <string name="title_notifications">Search</string>
+    <string name="title_search">Search</string>
     <string name="title_activity_login">Sign in</string>
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -21,4 +21,15 @@
     <string name="pause">Pause</string>
     <string name="next">Next</string>
     <string name="more">More</string>
+    <string name="title_personalInfo">personalInfo</string>
+    <string name="title_activity_personal_info">personalInfoActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="comment">comment</string>
+    <string name="musicList">music list</string>
+    <string name="send">send</string>
 </resources>

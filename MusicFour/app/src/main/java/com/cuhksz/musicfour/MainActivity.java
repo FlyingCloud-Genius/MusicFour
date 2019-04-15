@@ -71,9 +71,9 @@ public class MainActivity extends AppCompatActivity {
                 new int[]{R.id.listName, R.id.songNumber});
         static_option.setAdapter(SOadapter);
 
+        
         //set items in the favorite lsit
         favorite = (ExpandableListView) findViewById(R.id.favorite);
-
 
 
         //set the music player at the bottom
