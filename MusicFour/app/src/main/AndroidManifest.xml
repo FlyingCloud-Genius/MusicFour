@@ -21,12 +21,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".MusicCommentActivity"></activity>
-        <activity
-            android:name=".personalInfoActivity"
-            android:label="@string/title_activity_personal_info"
-            android:theme="@style/NoActionBar" >
-
-        </activity>
         <activity android:name=".MusicListActivity" />
         <activity android:name=".MusicInfoActivity" />
         <activity android:name=".MusicOperation" />
