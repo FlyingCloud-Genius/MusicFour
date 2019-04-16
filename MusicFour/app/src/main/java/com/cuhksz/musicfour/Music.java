@@ -26,7 +26,8 @@ public class Music {
         this.map.put("imageID", imageID);
     }
 
-    public static ArrayList<Map<String,Object>> buildMusics(){
+    public static void buildMusics(){
+        musics.clear();
         Music music1 = new Music(00001, "We Are Young", "Fun.,Janelle Monae", R.drawable.music00001);
         musics.add(music1.map);
         Music music2 = new Music(00002, "青鸟", "生物股长", R.drawable.music00002);
@@ -39,7 +40,6 @@ public class Music {
         musics.add(music5.map);
         Music music6 = new Music(00006, "시련의 나날들","金致焕", R.drawable.music00006);
         musics.add(music6.map);
-        return musics;
     }
 
     public static ArrayList<Map<String, Object>> getMusics(){

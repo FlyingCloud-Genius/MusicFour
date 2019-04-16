@@ -53,13 +53,13 @@ public class MusicCommentActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String comment_to_send = (String) commentToSend.getText().toString();
-                if (TextUtils.isEmpty(comment_to_send) == false) {
-                    Comment comment = new Comment("A��", comment_to_send, null);
+                if (!TextUtils.isEmpty(comment_to_send)) {
+                    Comment comment = new Comment("英国佬", comment_to_send, null);
                     commentList.addComment(comment);
-                    Toast.makeText(MusicCommentActivity.this,"������", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MusicCommentActivity.this,"发送成功", Toast.LENGTH_SHORT).show();
                     adapter.notifyDataSetChanged();
                 }else{
-                    Toast.makeText(MusicCommentActivity.this,"�������ݲ���Ϊ��", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MusicCommentActivity.this,"评论内容为空", Toast.LENGTH_SHORT).show();
                 }
             }
         });
