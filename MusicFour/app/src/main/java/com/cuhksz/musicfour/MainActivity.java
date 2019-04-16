@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.GestureDetector;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,7 +21,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
     private ListView static_option;
     private ExpandableListView favorite;
     private ConstraintLayout bottom;
@@ -37,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
 
                     return true;
                 case R.id.navigation_notifications:
-
+                        notificationOnSelect();
                     return true;
             }
             return false;
@@ -74,7 +76,49 @@ public class MainActivity extends AppCompatActivity {
         
         //set items in the favorite lsit
         favorite = (ExpandableListView) findViewById(R.id.favorite);
+        MusicList myList = new MusicList();
+        myList.putItem("favorite", 123);
+        myList.putItem("for homework", 55);
+        myList.putItem("pure music", 100);
 
+        MusicList mix = new MusicList();
+        mix.putItem("westLife", 123);
+        mix.putItem("100 for learning", 100);
+
+        ArrayList<String> groupName = new ArrayList<>();
+        groupName.add("my creation");
+        groupName.add("Mixed");
+
+        ArrayList<MusicList> total = new ArrayList<>();
+        total.add(mix);
+        total.add(myList);
+
+        MusicGroup mg = new MusicGroup(groupName, total);
+
+        favorite.setGroupIndicator(null);
+
+        final MusicListAdapter MLadapter = new MusicListAdapter(this, mg);
+        favorite.setAdapter(MLadapter);
+
+        for (int i=0; i < mg.getGroupNames().size(); i++){
+            favorite.expandGroup(i);
+        }
+
+        favorite.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+            @Override
+            public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
+                BottomSheetDialog dialog = new BottomSheetDialog(MainActivity.this);
+
+                return false;
+            }
+        });
+
+        favorite.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
+                return false;
+            }
+        });
 
         //set the music player at the bottom
         bottom = (ConstraintLayout) findViewById(R.id.bottom);
@@ -85,7 +129,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
 
-
+    public void notificationOnSelect() {
+        Intent intent = new Intent(MainActivity.this, personalInfoActivity.class);
+        startActivity(intent);
     }
 }
