@@ -20,13 +20,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".MusicCommentActivity"></activity>
+        <activity android:name=".MusicCommentActivity" />
         <activity android:name=".MusicListActivity" />
         <activity android:name=".MusicInfoActivity" />
         <activity android:name=".MusicOperation" />
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login" >
+            android:label="@string/title_activity_login" />
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+
+        <!--</activity>-->
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -34,9 +44,6 @@
             </intent-filter>
 
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main"/>
         <activity
             android:name=".MusicActivity"
             android:label="@string/title_activity_music" />
