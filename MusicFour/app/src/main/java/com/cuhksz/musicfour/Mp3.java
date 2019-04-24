@@ -82,6 +82,4 @@ public class Mp3 {
         System.out.println(mp3.getMusicTitle());
         System.out.println(mp3.getPublishYear());
     }
-
-
 }
