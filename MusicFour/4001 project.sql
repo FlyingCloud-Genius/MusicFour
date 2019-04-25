@@ -1,5 +1,4 @@
-create database csc_4001;
-use csc_4001;
+use musicFour;
 
 create table CATEGORY (
 	CatID char(10) not null,
@@ -23,12 +22,9 @@ create table MUSICIAN(
 
 create table MUSIC(
 	MscID char(10) not null,
-    MscName char(20) not null,
+    MscContent blob not null,
     MscCover char(20),
-    MscLyrics char(20) not null,
     MscPrice double not null,
-    MscPlayTime int not null,
-    MscPublishDate date not null,
     MsnID char(10) not null,
     primary key (MscID),
     foreign key (MsnID) references MUSICIAN (MsnID)

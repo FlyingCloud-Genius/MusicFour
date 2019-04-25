@@ -31,15 +31,15 @@ public class Mp3 {
             ID3v1 id3v1 = file.getID3v1Tag();
 
             if (id3v2 != null) {
-                album = id3v2.getAlbumTitle();//album
-                musicTitle = id3v2.getSongTitle();//musicTitle
-                artist = id3v2.getLeadArtist();//artist
-                publishYear = id3v2.getYearReleased();//released year
+                album = new String(String.valueOf(id3v2.getAlbumTitle()).getBytes());//album
+                musicTitle = new String(String.valueOf(id3v2.getSongTitle()).getBytes());//musicTitle
+                artist = new String(String.valueOf(id3v2.getLeadArtist()).getBytes());//artist
+                publishYear = new String(String.valueOf(id3v2.getYearReleased()).getBytes());//released year
             } else {
-                album = id3v2.getAlbumTitle();//album
-                musicTitle = id3v2.getSongTitle();//musicTitle
-                artist = id3v2.getLeadArtist();//artist
-                publishYear = id3v2.getYearReleased();//released year
+                album = new String(String.valueOf(id3v2.getAlbumTitle()).getBytes());//album
+                musicTitle = new String(String.valueOf(id3v2.getSongTitle()).getBytes());//musicTitle
+                artist = new String(String.valueOf(id3v2.getLeadArtist()).getBytes());//artist
+                publishYear = new String(String.valueOf(id3v2.getYearReleased()).getBytes());//released year
             }
 
             AbstractLyrics3 lrc3Tag = file.getLyrics3Tag();
@@ -75,7 +75,7 @@ public class Mp3 {
     }
 
     public static void main(String[] args) {
-        Mp3 mp3 = new Mp3("D:\\4001project\\MusicFour\\app\\src\\main\\res\\7AND5 - Remember.mp3");
+        Mp3 mp3 = new Mp3("D:\\4001project\\MusicFour\\app\\src\\main\\res\\胡歌 - 忘记时间.mp3");
         System.out.println(mp3.getAlbum());
         System.out.println(mp3.getArtist());
         System.out.println(mp3.getMusicLyrics());
