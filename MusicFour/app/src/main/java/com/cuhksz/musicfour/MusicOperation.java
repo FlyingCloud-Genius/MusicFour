@@ -47,12 +47,20 @@ public class MusicOperation extends ListActivity {
 
         if (position == 2){}    //go to the download interface
 
-        if (position == 3){}    //go to the share interface
+        if (position == 3){
+            Intent share_intent = new Intent();
+            share_intent.setAction(Intent.ACTION_SEND);
+            share_intent.setType("text/plain");
+            share_intent.putExtra(Intent.EXTRA_SUBJECT, "好歌推荐： ");
+            share_intent.putExtra(Intent.EXTRA_TEXT, (String)music.get("music"));
+            share_intent = Intent.createChooser(share_intent, "分享");
+            startActivity(share_intent);
+        }    //go to the share interface
 
         if (position == 4){
-            Intent intent = new Intent(MusicOperation.this,MusicInfoActivity.class);
-            intent.putExtra(MUSICID,(int)music.get("musicID"));
-            startActivity(intent);
+            Intent info_intent = new Intent(MusicOperation.this,MusicInfoActivity.class);
+            info_intent.putExtra(MUSICID,(int)music.get("musicID"));
+            startActivity(info_intent);
         }    //go to the music information interface
 
         if (position == 5){}    //add the music into music sheet
