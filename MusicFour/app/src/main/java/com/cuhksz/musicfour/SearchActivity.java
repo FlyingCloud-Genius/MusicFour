@@ -25,6 +25,7 @@ public class SearchActivity extends AppCompatActivity {
                 new String[]{"music", "musician"}, new int[]{R.id.musicListItemMusicName, R.id.musicListItemMusicianName});
 
         final ListView searchResult = (ListView)  findViewById(R.id.searchResult);
+        searchResult.setVisibility(View.INVISIBLE);
         searchResult.setAdapter(adapter);
         searchResult.setTextFilterEnabled(true);
         searchResult.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -53,8 +54,10 @@ public class SearchActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String s) {
                 if (!TextUtils.isEmpty(s)){
                     searchResult.setFilterText(s);
+                    searchResult.setVisibility(View.VISIBLE);
                 }else{
                     searchResult.clearTextFilter();
+                    searchResult.setVisibility(View.INVISIBLE);
                 }
                 return false;
             }
@@ -63,8 +66,10 @@ public class SearchActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String s) {
                 if (!TextUtils.isEmpty(s)){
                     searchResult.setFilterText(s);
+                    searchResult.setVisibility(View.VISIBLE);
                 }else{
                     searchResult.clearTextFilter();
+                    searchResult.setVisibility(View.INVISIBLE);
                 }
                 return false;
             }
