@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -44,8 +45,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 case R.id.navigation_dashboard:
 
                     return true;
-                case R.id.navigation_notifications:
-                        notificationOnSelect();
+                case R.id.navigation_personalInfo:
+                    notificationOnSelect();
+                    return true;
+                case R.id.navigation_search:
+                    Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                    startActivity(intent);
                     return true;
             }
             return false;
@@ -83,6 +88,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 new String[]{"List Name", "Song Number"},
                 new int[]{R.id.listName, R.id.songNumber});
         static_option.setAdapter(SOadapter);
+        static_option.setOnItemClickListener(new ListView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(MainActivity.this, MusicListActivity.class);
+
+                startActivity(intent);
+            }
+        });
 
         
         //set items in the favorite lsit
@@ -106,8 +119,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         MusicGroup mg = new MusicGroup(groupName, total);
 
-        favorite.setGroupIndicator(null);
-
         final MusicListAdapter MLadapter = new MusicListAdapter(this, mg);
         favorite.setAdapter(MLadapter);
 
@@ -127,7 +138,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         favorite.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
-                return false;
+                Intent intent = new Intent(MainActivity.this, MusicListActivity.class);
+
+                startActivity(intent);
+                return true;
             }
         });
 
