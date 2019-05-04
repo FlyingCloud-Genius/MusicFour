@@ -1,22 +1,35 @@
 package com.cuhksz.musicfour;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 public class popupActivity extends AppCompatActivity {
     private static EditText listName;
     private static EditText description;
+    private static Button save;
+    private static Button cancel;
+    private String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_popup);
 
+        Intent intent = getIntent();
+        userID = intent.getStringExtra("userID");
         listName = (EditText) findViewById(R.id.listName);
         description = (EditText) findViewById(R.id.description);
+        save = (Button) findViewById(R.id.save);
+        cancel = (Button) findViewById(R.id.cancel);
+
+        MyOnClickListener myOnClickListener = new MyOnClickListener();
+        save.setOnClickListener(myOnClickListener);
+        cancel.setOnClickListener(myOnClickListener);
 
     }
 
@@ -40,7 +53,22 @@ public class popupActivity extends AppCompatActivity {
          */
         @Override
         public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.save:
+                    String name = listName.getText().toString();
+                    String content = description.getText().toString();
+                    //TODO: save to database
 
+                    Intent intent_save = new Intent(popupActivity.this, MainActivity.class);
+                    intent_save.putExtra("userID", userID);
+                    startActivity(intent_save);
+                    break;
+                case R.id.cancel:
+                    Intent intent_cancel = new Intent(popupActivity.this, MainActivity.class);
+                    intent_cancel.putExtra("userID", userID);
+                    startActivity(intent_cancel);
+                    break;
+            }
         }
     }
 }
