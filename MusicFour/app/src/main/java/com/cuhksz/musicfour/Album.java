@@ -13,7 +13,7 @@ public class Album {
     private Map<String, Object> map = new HashMap<String,Object>();
     private static final ArrayList<Map<String, Object>> albums= new ArrayList<Map<String, Object>>();
 
-    private Album(String albumID, String album, String publisherID, String publisher, String publishDate, String musicianID, String musician){
+    public Album(String albumID, String album, String publisherID, String publisher, String publishDate, String musicianID, String musician){
         this.map.put("albumID", albumID);
         this.map.put("album",album);
         this.map.put("publisherID", publisherID);
@@ -23,7 +23,7 @@ public class Album {
         this.map.put("musician", musician);
     }
 
-    private Album(String albumID, String album, String publisherID, String publisher, String publishDate, String musicianID, String musician, int imageID){
+    public Album(String albumID, String album, String publisherID, String publisher, String publishDate, String musicianID, String musician, int imageID){
         this.map.put("albumID", albumID);
         this.map.put("album",album);
         this.map.put("publisherID", publisherID);
@@ -36,9 +36,12 @@ public class Album {
 
     public static void buildAlbums(){
         albums.clear();
-        Album album1 = new Album("00001", "剑灵原声音乐选辑", "00001", "大韩音乐公司", "2017-08-10","00001", "金致逸",R.drawable.music00001);
-        albums.add(album1.map);
 
+        ConnectMySql connector = new ConnectMySql();
+        List<Album> albumInfoList = connector.getAlbumInfo();
+        for (int i = 0; i < albumInfoList.size(); i++){
+            albums.add(albumInfoList.get(i).map);
+        }
     }
 
     public static ArrayList<Map<String, Object>> getAlbums(){

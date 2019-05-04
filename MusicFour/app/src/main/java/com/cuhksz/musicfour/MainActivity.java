@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent intent = new Intent(MainActivity.this, ListOperation.class);
                 intent.putExtra("userID", userID);
                 //TODO: give it music list id before use
-                
+
                 startActivity(intent);
                 return true;
             }
@@ -197,9 +197,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void addList(View view) {
-        //TODO
-
-
+        Intent intent = new Intent(MainActivity.this, popupActivity.class);
+        intent.putExtra("userID", userID);
+        startActivity(intent);
     }
 
     public void notificationOnSelect() {
