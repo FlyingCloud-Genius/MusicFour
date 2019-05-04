@@ -30,6 +30,7 @@ public class ConnectMySql {
     private List<Comment> commentList = new ArrayList<>();
     private List<String> musicSheetList = new ArrayList<>();
     private List<SpecialMusicList> wholeMusicSheetList = new ArrayList<>();
+    private List<SpecialMusic> wholeMusicList = new ArrayList<>();
 
     /*store userID and userPassword in database*/
     private List<String> regInfoList = new ArrayList<>();
@@ -125,6 +126,16 @@ public class ConnectMySql {
             e.printStackTrace();
         }
         return this.wholeMusicSheetList;
+    }
+
+    public List<SpecialMusic> getWholeMusicList() {
+        wholeMusicListThread.start();
+        try {
+            wholeMusicListThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return this.wholeMusicList;
     }
 
     public ConnectMySql() {
@@ -412,10 +423,58 @@ public class ConnectMySql {
                             }
                         }
                     }
+                    sql = "select MSID, MscID from MS_include;";
+                    rs = statement.executeQuery(sql);
+                    String musicID = null;
+                    while (rs.next()) {
+                        msid = rs.getString("MSID");
+                        musicID = rs.getString("MscID");
+                        for(SpecialMusicList tmp:wholeMusicSheetList) {
+                            if(tmp.getMusicSheetID().equals(msid)) {
+                                tmp.addMusicInclude(musicID);
+                            }
+                        }
+                    }
+
                     rs.close();
                     conn.close();
                     return;
                 } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    });
+
+    final Thread wholeMusicListThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            while (!Thread.interrupted()) {
+                try {
+                    Thread.sleep(100);
+                }
+                catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    Connection conn = DriverManager.getConnection(url, user, password);
+                    Statement statement = conn.createStatement();
+                    String sql = "select MscID, MscName, MsnName from music, musician where music.MsnID = musician.MsnID;";
+                    ResultSet rs = statement.executeQuery(sql);
+                    String MscID = null;
+                    String MscName = null;
+                    String MsnName = null;
+                    while(rs.next()) {
+                        MscID = rs.getString("MscID");
+                        MscName = rs.getString("MscName");
+                        MsnName = rs.getString("MsnName");
+                        wholeMusicList.add(new SpecialMusic(MscID, MscName, MsnName));
+                    }
+                    rs.close();
+                    conn.close();
+                    return;
+                }
+                catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
