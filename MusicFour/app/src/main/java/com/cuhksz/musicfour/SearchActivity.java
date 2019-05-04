@@ -37,7 +37,7 @@ public class SearchActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(SearchActivity.this, MusicActivity.class);
                 intent.putExtra(USERID,userID);
-                intent.putExtra(MUSICID, (int)Music.getMusics().get(i).get("musicID"));
+                intent.putExtra(MUSICID, (String) Music.getMusics().get(i).get("musicID"));
                 startActivity(intent);
             }
         });
@@ -47,7 +47,7 @@ public class SearchActivity extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(SearchActivity.this, MusicOperation.class);
                 intent.putExtra(USERID,userID);
-                intent.putExtra(MUSICID, (int)Music.getMusics().get(i).get("musicID"));
+                intent.putExtra(MUSICID, (String) Music.getMusics().get(i).get("musicID"));
                 startActivity(intent);
                 return true;
             }

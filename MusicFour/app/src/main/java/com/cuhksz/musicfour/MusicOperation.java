@@ -31,7 +31,7 @@ public class MusicOperation extends ListActivity {
         ArrayAdapter<String> musicOperationAdapter = new ArrayAdapter<String>(
                 this,
                 android.R.layout.simple_list_item_1,
-                new String[]{"收藏", "评论", "下载", "分享", "歌曲信息", "添加到歌单", "MV", "设为铃声"}
+                new String[]{"收藏", "评论", "下载", "分享", "歌曲信息", "添加到歌单", "从歌单中移除", "MV", "设为铃声"}
         );
 
         ListView musicOperationList = getListView();
@@ -65,9 +65,11 @@ public class MusicOperation extends ListActivity {
 
         if (position == 5){}    //add the music into music sheet
 
-        if (position == 6){}    //show the MV of the music
+        if (position == 6){}    //remove the music from music sheet
 
-        if (position == 7){}    //set the music as ringtone
+        if (position == 7){}    //show the MV of the music
+
+        if (position == 8){}    //set the music as ringtone
 
     }
 }
