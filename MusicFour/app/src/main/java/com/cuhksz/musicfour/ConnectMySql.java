@@ -21,6 +21,12 @@ public class ConnectMySql {
     private String musicSheetID;
     private String musicSheetName;
     private String musicSheetInfo;
+
+    private String regID;
+    private String regPassword;
+    private String userName;
+    private String userGender;
+    private String userBirth;
     private List<Comment> commentList = new ArrayList<>();
     private List<String> musicSheetList = new ArrayList<>();
     private List<SpecialMusicList> wholeMusicSheetList = new ArrayList<>();
@@ -71,6 +77,20 @@ public class ConnectMySql {
         return this.musicSheetList;
     }
 
+    public void insertRegistry(String email, String password, String name, String gender, String birthday) {
+        this.regID = email;
+        this.regPassword = password;
+        this.userName = name;
+        this.userGender = gender;
+        this.userBirth = birthday;
+        insertRegistryThread.start();
+        try {
+            insertRegistryThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void deleteMusicSheet(String userID, String musicSheetID) {
         this.userID = userID;
         this.musicSheetID = musicSheetID;
@@ -108,6 +128,36 @@ public class ConnectMySql {
 
     public ConnectMySql() {
     }
+
+
+    final Thread insertRegistryThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            while (!Thread.interrupted()) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    Connection conn = DriverManager.getConnection(url, user, password);
+                    Statement statement = conn.createStatement();
+                    String sql = "insert into registry values('" + regID + "', '" + regPassword + "')";
+                    statement.execute(sql);
+                    System.out.println("Insert reg!!!!!");
+
+                    sql = "insert into users values('" + musicSheetID + "', '" + musicSheetName + "', '" + musicSheetInfo + "', '" + userID +"')";
+                    statement.execute(sql);
+                    System.out.println("Insert!");
+                    conn.close();
+                    return;
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    });
+
 
     final Thread commentListThread = new Thread(new Runnable() {
         @Override
@@ -370,5 +420,4 @@ public class ConnectMySql {
             }
         }
     });
-
 }
