@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import java.util.Date;
 
 public class popupActivity extends AppCompatActivity {
     private static EditText listName;
@@ -55,9 +56,13 @@ public class popupActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.save:
+                    Date present = new Date();
+                    long s = present.getTime()/100000;
+                    String n = "MS" + Long.toString(s);
                     String name = listName.getText().toString();
                     String content = description.getText().toString();
-                    //TODO: save to database
+                    ConnectMySql conn = new ConnectMySql();
+                    conn.insertMusicSheet(n, name, content, userID);
 
                     Intent intent_save = new Intent(popupActivity.this, MainActivity.class);
                     intent_save.putExtra("userID", userID);
