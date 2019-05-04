@@ -1,7 +1,14 @@
 package com.cuhksz.musicfour;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -43,10 +50,46 @@ public class MySQLConnector {
         return list;
     }
 
+    public void insertBlob() {//插入Blob
+        String localFIle = "D:\\Music\\911 - Alive.mp3";
+        File dir = new File("D:\\MusicFour\\");
+        File file = new File(dir, "copy.mp3");
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try{
+//            FileInputStream file = new FileInputStream(localFIle);
+//            PreparedStatement ps = con.prepareStatement("insert into music values(?,?,?,?,?,?)");
+//            ps.setString(1,"blob");
+//            ps.setString(2,"Alive");
+//            ps.setString(3, "adf");
+//            ps.setString(4, "adf");
+//            ps.setBinaryStream(5, file, file.available());
+//            ps.setString(6,"1");
+//            ps.executeUpdate();
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("select MscFile from music where MscID = 'blob'");
+            while(rs.next()){
+                Blob blob = rs.getBlob(1);
+                InputStream in = blob.getBinaryStream();
+
+                FileOutputStream fout = new FileOutputStream(file);
+                int b = -1;
+                while((b=in.read())!=-1){
+                    fout.write(b);
+                }
+            }
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
     public static void main(String[] args) {
         MySQLConnector connector = new MySQLConnector();
         Connection conn = connector.getConnection();
-
+        connector.insertBlob();
 
         System.out.println(res);
     }

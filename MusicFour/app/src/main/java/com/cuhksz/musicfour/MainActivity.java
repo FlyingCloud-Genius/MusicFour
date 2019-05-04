@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 ConnectMySql dataBase = new ConnectMySql();
                 List<SpecialMusicList> tmpList = dataBase.getWholeMusicSheetList(userID);
                 intent.putExtra("userID", userID);
-                intent.putExtra("musicListID", tmpList.get(position).getMusicSheetID());
+                intent.putExtra("musicListID", tmpList.get(position-1).getMusicSheetID());
                 startActivity(intent);
                 return true;
             }
@@ -199,7 +199,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, MusicActivity.class);
                 intent.putExtra("userID", userID);
-
                 startActivity(intent);
             }
         });

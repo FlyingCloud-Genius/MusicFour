@@ -10,17 +10,16 @@ import java.net.URL;
 import java.net.URLConnection;
 
 public class DownloadDemo {
-    String downloadPath = "/root/upload/music/";
+    String downloadPath = "120.78.82.130/";
     String envPath = "/sdcard/Music";
 
     public void downloadFile() {
         try{
             //下载路径，如果路径无效了，可换成你的下载路径
             String url = downloadPath + "SHK - Halloween Party.mp3";
-            String path = Environment.getExternalStorageDirectory().getAbsolutePath();
+            String path = envPath;
 
             final long startTime = System.currentTimeMillis();
-            Log.i("DOWNLOAD","startTime="+startTime);
             //下载函数
             String filename=url.substring(url.lastIndexOf("/") + 1);
             //获取文件名
