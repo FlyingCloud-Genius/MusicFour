@@ -158,6 +158,7 @@ public class MusicActivity extends Activity {
                     } else {
                         module.setText("next");
                         playingModule = "next";
+
                     }
             }
         }
@@ -220,8 +221,6 @@ public class MusicActivity extends Activity {
     public void onDestroy() {
         super.onDestroy();
         unbindService(conn);
-        stopService(intent);
-        finish();
     }
 
 
