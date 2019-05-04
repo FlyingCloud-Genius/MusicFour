@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 List<SpecialMusicList> tmpList = dataBase.getWholeMusicSheetList(userID);
                 intent.putExtra("userID", userID);
                 intent.putExtra("musicListID", tmpList.get(i1).getMusicSheetID());
-                intent.putExtra("musicsID", (CharSequence) tmpList.get(i1).getMusicInclude());
+                intent.putStringArrayListExtra("musicsID", tmpList.get(i1).getMusicInclude());
                 startActivity(intent);
                 return true;
             }
@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 List<SpecialMusicList> tmpList = dataBase.getWholeMusicSheetList(userID);
                 intent.putExtra("userID", userID);
                 intent.putExtra("musicListID", tmpList.get(position-1).getMusicSheetID());
-                intent.putExtra("musicsID", (CharSequence) tmpList.get(position-1).getMusicInclude());
+                intent.putStringArrayListExtra("musicsID", tmpList.get(position-1).getMusicInclude());
                 startActivity(intent);
                 return true;
             }

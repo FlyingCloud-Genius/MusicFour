@@ -8,7 +8,7 @@ public class SpecialMusicList {
     private String musicSheetName;
     private String musicSheetID;
     private int countMusicNum;
-    private List<String> musicInclude = new ArrayList<>();
+    private ArrayList<String> musicInclude = new ArrayList<>();
 
     public SpecialMusicList(String musicSheetID, String musicSheetName){
         this.musicSheetID = musicSheetID;
@@ -32,7 +32,7 @@ public class SpecialMusicList {
         this.countMusicNum = countMusicNum;
     }
 
-    public List<String> getMusicInclude() {
+    public ArrayList<String> getMusicInclude() {
         return musicInclude;
     }
 
