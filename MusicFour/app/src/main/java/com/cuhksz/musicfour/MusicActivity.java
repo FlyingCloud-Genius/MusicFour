@@ -250,21 +250,21 @@ public class MusicActivity extends Activity {
 
     public void onClickToMusicList(View view) {
         Intent intentToMusicList = new Intent(MusicActivity.this, MusicListActivity.class);
-        intentToMusicList.putExtra("musicListID","00001");
+        intentToMusicList.putExtra("musicListID","1");
         intentToMusicList.putExtra(USERID,userID);
         startActivity(intentToMusicList);
     }
 
     public void onClickToComment(View view) {
         Intent intentToComment = new Intent(MusicActivity.this, MusicCommentActivity.class);
-        intentToComment.putExtra("musicID","00001");
+        intentToComment.putExtra("musicID","2");
         intentToComment.putExtra(USERID,userID);
         startActivity(intentToComment);
     }
 
     public void onClickToAlbum(View view) {
         Intent intentToAlbum = new Intent(MusicActivity.this, AlbumInfoActivity.class);
-        intentToAlbum.putExtra("albumID","00001");
+        intentToAlbum.putExtra("albumID","1");
         intentToAlbum.putExtra(USERID,userID);
         startActivity(intentToAlbum);
     }
