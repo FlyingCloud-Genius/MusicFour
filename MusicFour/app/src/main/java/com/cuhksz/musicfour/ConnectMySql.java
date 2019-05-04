@@ -423,6 +423,19 @@ public class ConnectMySql {
                             }
                         }
                     }
+                    sql = "select MSID, MscID from MS_include;";
+                    rs = statement.executeQuery(sql);
+                    String musicID = null;
+                    while (rs.next()) {
+                        msid = rs.getString("MSID");
+                        musicID = rs.getString("MscID");
+                        for(SpecialMusicList tmp:wholeMusicSheetList) {
+                            if(tmp.getMusicSheetID().equals(msid)) {
+                                tmp.addMusicInclude(musicID);
+                            }
+                        }
+                    }
+
                     rs.close();
                     conn.close();
                     return;

@@ -30,6 +30,7 @@ import android.widget.SeekBar;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -159,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 List<SpecialMusicList> tmpList = dataBase.getWholeMusicSheetList(userID);
                 intent.putExtra("userID", userID);
                 intent.putExtra("musicListID", tmpList.get(i1).getMusicSheetID());
+                intent.putExtra("musicsID", (CharSequence) tmpList.get(i1).getMusicInclude());
                 startActivity(intent);
                 return true;
             }
@@ -187,6 +189,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 List<SpecialMusicList> tmpList = dataBase.getWholeMusicSheetList(userID);
                 intent.putExtra("userID", userID);
                 intent.putExtra("musicListID", tmpList.get(position-1).getMusicSheetID());
+                intent.putExtra("musicsID", (CharSequence) tmpList.get(position-1).getMusicInclude());
                 startActivity(intent);
                 return true;
             }
