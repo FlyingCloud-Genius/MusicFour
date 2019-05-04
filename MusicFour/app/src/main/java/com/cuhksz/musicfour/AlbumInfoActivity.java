@@ -27,15 +27,18 @@ public class AlbumInfoActivity extends AppCompatActivity {
             if (map.get("albumID").equals(albumID)){
                 album = map;
             }
+            else{
+                System.out.println("Don't equal!!");
+            }
         }
 
-        ImageView photo = (ImageView) findViewById(R.id.albumInfoPhoto);
+//        ImageView photo = (ImageView) findViewById(R.id.albumInfoPhoto);
         TextView albumName = (TextView) findViewById(R.id.albumInfoAlbum);
         TextView publisher = (TextView) findViewById(R.id.albumInfoPublisher);
         TextView publishDate = (TextView) findViewById(R.id.albumInfoPublishDate);
         TextView musician = (TextView) findViewById(R.id.albumInfoMusician);
 
-        photo.setImageResource((int)album.get("imageID"));
+//        photo.setImageResource((int)album.get("imageID"));
         albumName.setText((String)album.get("album"));
         publisher.setText((String)album.get("publisher"));
         publishDate.setText((String)album.get("publishDate"));

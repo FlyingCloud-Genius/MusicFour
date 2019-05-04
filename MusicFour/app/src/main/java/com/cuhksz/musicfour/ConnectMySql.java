@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class ConnectMySql {
-    private List<Comment> commentList = new ArrayList<>();
     private String ip = "120.78.82.130";
     private int port = 3306;
     private String dbName = "MusicFour";
@@ -22,8 +21,9 @@ public class ConnectMySql {
     private String musicSheetID;
     private String musicSheetName;
     private String musicSheetInfo;
+    private List<Comment> commentList = new ArrayList<>();
     private List<String> musicSheetList = new ArrayList<>();
-
+    private List<SpecialMusicList> wholeMusicSheetList = new ArrayList<>();
 
     /*store userID and userPassword in database*/
     private List<String> regInfoList = new ArrayList<>();
@@ -93,6 +93,17 @@ public class ConnectMySql {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<SpecialMusicList> getWholeMusicSheetList(String userID) {
+        this.userID = userID;
+        wholeMusicSheetListThread.start();
+        try {
+            wholeMusicSheetListThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return this.wholeMusicSheetList;
     }
 
     public ConnectMySql() {
@@ -195,8 +206,8 @@ public class ConnectMySql {
                     Connection conn = DriverManager.getConnection(url, user, password);
                     Statement statement = conn.createStatement();
                     String sql = "select AID, AName, p.PID, p.PName, APublishDate, m.MsnID, m.MsnName, imageID " +
-                            "FROM album a, publisher p, musician m" +
-                            "WHERE a.MsnID = m.MsnID and a.PID = p.PID";
+                            "FROM album a, publisher p, musician m " +
+                            "WHERE a.MsnID = m.MsnID AND a.PID = p.PID ";
                     ResultSet rs = statement.executeQuery(sql);
                     String AID = null;
                     String AName = null;
@@ -308,6 +319,49 @@ public class ConnectMySql {
                     String sql = "insert into musicsheet values('"+musicSheetID+"', '"+musicSheetName+"', '"+musicSheetInfo+"', '"+userID+"')";
                     statement.execute(sql);
                     System.out.println("Insert!");
+                    conn.close();
+                    return;
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    });
+
+    final Thread wholeMusicSheetListThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            while (!Thread.interrupted()) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    Connection conn = DriverManager.getConnection(url, user, password);
+                    Statement statement = conn.createStatement();
+                    String sql = "select MSID, MSName from musicsheet;";
+                    ResultSet rs = statement.executeQuery(sql);
+                    String msid = null;
+                    String musicSheetName = null;
+                    while (rs.next()) {
+                        msid = rs.getString("MSID");
+                        musicSheetName = rs.getString("MSName");
+                        wholeMusicSheetList.add(new SpecialMusicList(msid, musicSheetName));
+                    }
+                    sql = "select MSID, count(MscID) FROM MS_include GROUP BY MSID;";
+                    rs = statement.executeQuery(sql);
+                    int countNum = 0;
+                    while (rs.next()) {
+                        msid = rs.getString("MSID");
+                        countNum = rs.getInt(2);
+                        for(SpecialMusicList tmp:wholeMusicSheetList) {
+                            if(tmp.getMusicSheetID().equals(msid)) {
+                                tmp.setCountMusicNum(countNum);
+                            }
+                        }
+                    }
+                    rs.close();
                     conn.close();
                     return;
                 } catch (SQLException e) {

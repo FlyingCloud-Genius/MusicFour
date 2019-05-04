@@ -9,7 +9,7 @@
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
-    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in">Sign in</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="error_invalid_email">This email address is invalid</string>
     <string name="error_invalid_password">This password is too short</string>
@@ -33,4 +33,19 @@
     <string name="musicList">music list</string>
     <string name="send">send</string>
     <string name="search">search for music</string>
+    <string name="save">save</string>
+    <string name="cancel">cancel</string>
+    <string name="description">description</string>
+    <string name="list_name">list name</string>
+    <string name="requireName">Name</string>
+    <string name="birthday">Birthday</string>
+    <string name="gender">Gender</string>
+    <string name="toRegister">Register</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <array name="chooseGender">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Others</item>
+    </array>
 </resources>
