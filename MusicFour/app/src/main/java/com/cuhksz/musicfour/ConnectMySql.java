@@ -71,6 +71,19 @@ public class ConnectMySql {
         return this.musicSheetList;
     }
 
+    public void insertRegistry(String email, String password, String name, String gender, String birthday) {
+        this.userID = userID;
+        this.musicSheetID = musicSheetID;
+        this.musicSheetName = musicSheetName;
+        this.musicSheetInfo = musicSheetInfo;
+        insertMusicSheetThread.start();
+        try {
+            insertMusicSheetThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void deleteMusicSheet(String userID, String musicSheetID) {
         this.userID = userID;
         this.musicSheetID = musicSheetID;
