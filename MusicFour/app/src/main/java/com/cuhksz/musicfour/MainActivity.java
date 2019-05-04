@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
              */
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(MainActivity.this, ListOperation.class);
+                Intent intent = new Intent(MainActivity.this, ListOperationActivity.class);
                 intent.putExtra("userID", userID);
                 ConnectMySql dataBase = new ConnectMySql();
                 List<SpecialMusicList> tmpList = dataBase.getWholeMusicSheetList(userID);
