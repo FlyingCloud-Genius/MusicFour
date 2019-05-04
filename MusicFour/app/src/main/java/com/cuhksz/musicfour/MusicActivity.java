@@ -37,10 +37,16 @@ public class MusicActivity extends Activity {
     public static int currentSongIndex = 0;
     public String playingModule; // next same random
 
+    private static final String USERID = "userID";
+    private String userID;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music);
+
+        userID = (String) getIntent().getExtras().get(USERID);
 
         //asking for authority
         if (Build.VERSION.SDK_INT >= 23) {
@@ -244,16 +250,22 @@ public class MusicActivity extends Activity {
 
     public void onClickToMusicList(View view) {
         Intent intentToMusicList = new Intent(MusicActivity.this, MusicListActivity.class);
+        intentToMusicList.putExtra("musicListID","00001");
+        intentToMusicList.putExtra(USERID,userID);
         startActivity(intentToMusicList);
     }
 
     public void onClickToComment(View view) {
         Intent intentToComment = new Intent(MusicActivity.this, MusicCommentActivity.class);
+        intentToComment.putExtra("musicID","00001");
+        intentToComment.putExtra(USERID,userID);
         startActivity(intentToComment);
     }
 
     public void onClickToAlbum(View view) {
         Intent intentToAlbum = new Intent(MusicActivity.this, AlbumInfoActivity.class);
+        intentToAlbum.putExtra("albumID","00001");
+        intentToAlbum.putExtra(USERID,userID);
         startActivity(intentToAlbum);
     }
 

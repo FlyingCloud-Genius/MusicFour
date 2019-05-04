@@ -340,7 +340,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             if (success) {
                 finish();
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                Intent intent = new Intent(LoginActivity.this, SearchActivity.class);
 
 //                List<String> regInfo = new ArrayList<>();
 //                ConnectMySql connector = new ConnectMySql();

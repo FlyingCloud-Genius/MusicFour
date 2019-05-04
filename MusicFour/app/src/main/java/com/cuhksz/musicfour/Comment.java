@@ -2,19 +2,22 @@ package com.cuhksz.musicfour;
 
 import java.util.List;
 
-/**
- * Created by Mike on 2019/4/11.
- */
 
 public class Comment {
     private String commentName;
     private String comment;
     private List<Reply> replies;
+    private String replyID;
+    private String commentID;
+    private String musicID;
 
 
-    public Comment(String commentName, String comment, List<Reply> replies){
+    public Comment(String commentName, String comment, String commentID, String musicID, String replyID, List<Reply> replies){
         this.commentName = commentName;
         this.comment = comment;
+        this.commentID = commentID;
+        this.musicID = musicID;
+        this.replyID = replyID;
         this.replies = replies;
     }
 
@@ -26,12 +29,24 @@ public class Comment {
         return comment;
     }
 
+    public String getMusicID() {
+        return musicID;
+    }
+
+    public String getReplyID() {
+        return replyID;
+    }
+
+    public String getCommentID() {
+        return commentID;
+    }
+
     public List<Reply> getReplies() {
         return replies;
     }
 
-    public void addReply(Comment targetComment,String replyName, String reply){
+    public void addReply(String replyName, String reply){
         Reply newReply = new Reply(replyName,reply);
-        targetComment.getReplies().add(newReply);
+        this.getReplies().add(newReply);
     }
 }

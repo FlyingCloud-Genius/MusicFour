@@ -10,17 +10,16 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="100dp"
         android:layout_gravity="center_horizontal"
-        android:id="@+id/albumInfoPhoto"
-        android:layout_weight="1"/>
+        android:id="@+id/albumInfoPhoto" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal"
-        android:id="@+id/albumInfoMusic"
+        android:id="@+id/albumInfoAlbum"
         android:text=""
         android:textSize="30dp"/>
 
@@ -29,8 +28,25 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:layout_gravity="center_horizontal"
+        android:id="@+id/albumInfoPublisher"
+        android:text=""
+        android:textSize="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center_horizontal"
         android:id="@+id/albumInfoMusician"
-        android:layout_weight="1"
+        android:text=""
+        android:textSize="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/albumInfoPublishDate"
         android:text=""
         android:textSize="20dp"/>
 

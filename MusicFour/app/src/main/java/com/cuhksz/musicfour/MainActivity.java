@@ -22,6 +22,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -33,12 +34,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
-    private ListView static_option;
-    private ExpandableListView favorite;
-    private ConstraintLayout bottom;
-    private DrawerLayout drawerLayout;
-    private NavigationView navigationView;
+//    private ListView static_option;
+    private static ExpandableListView favorite;
+    private static ConstraintLayout bottom;
+    private static DrawerLayout drawerLayout;
+    private static NavigationView navigationView;
     private String userID;
+    private static Button addGroup;
+    ArrayList<MusicList> total;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -57,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     return true;
                 case R.id.navigation_search:
                     Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                    intent.putExtra("UserID", userID);
                     startActivity(intent);
                     return true;
             }
@@ -69,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        addGroup = (Button) findViewById(R.id.addGroup);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -81,54 +86,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent intent = getIntent();
         userID = intent.getStringExtra("userID");
 
-//        MySQLConnector connector = new MySQLConnector();
-//        connector.getConnection();
-//        connector.getData();
-//        System.out.println("hello world!!");
+        homeOnSelect();
+
     }
 
     public void homeOnSelect() {
         //set item in the static options
-        static_option = (ListView) findViewById(R.id.static_options);
-        MusicList ml = new MusicList();
-        ml.putItem("Local Music", 650);
-        ml.putItem("Manage Download", 590);
-        ml.putItem("Favorite Stations", 5);
-        ml.putItem("Recent Play", 100);
-        ml.putItem("FAVs", 4);
-        SimpleAdapter SOadapter = new SimpleAdapter(this, ml.getList(), R.layout.music_list,
-                new String[]{"List Name", "Song Number"},
-                new int[]{R.id.listName, R.id.songNumber});
-        static_option.setAdapter(SOadapter);
-        static_option.setOnItemClickListener(new ListView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(MainActivity.this, MusicListActivity.class);
-                intent.putExtra("userID", userID);
-                //musicList ID
-                //intent.putExtra("musicList", );
-                startActivity(intent);
-            }
-        });
+//        static_option = (ListView) findViewById(R.id.static_options);
+//        MusicList ml = new MusicList();
+//        ml.putItem("Local Music", 650);
+//        ml.putItem("Manage Download", 590);
+//        ml.putItem("Favorite Stations", 5);
+//        ml.putItem("Recent Play", 100);
+//        ml.putItem("FAVs", 4);
+//        SimpleAdapter SOadapter = new SimpleAdapter(this, ml.getList(), R.layout.music_list,
+//                new String[]{"List Name", "Song Number"},
+//                new int[]{R.id.listName, R.id.songNumber});
+//        static_option.setAdapter(SOadapter);
+//        static_option.setOnItemClickListener(new ListView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Intent intent = new Intent(MainActivity.this, MusicListActivity.class);
+//                intent.putExtra("userID", userID);
+//                //musicList ID
+//                //TODO
+//                //intent.putExtra("musicList", );
+//                startActivity(intent);
+//            }
+//        });
 
         
         //set items in the favorite lsit
         favorite = (ExpandableListView) findViewById(R.id.favorite);
         MusicList myList = new MusicList();
-        myList.putItem("favorite", 123);
-        myList.putItem("for homework", 55);
-        myList.putItem("pure music", 100);
-
-        MusicList mix = new MusicList();
-        mix.putItem("westLife", 123);
-        mix.putItem("100 for learning", 100);
+        myList.putItem("favorite", 0);
 
         ArrayList<String> groupName = new ArrayList<>();
         groupName.add("Group: my creation");
-        groupName.add("Group: Mixed");
 
         ArrayList<MusicList> total = new ArrayList<>();
-        total.add(mix);
         total.add(myList);
 
         MusicGroup mg = new MusicGroup(groupName, total);
@@ -153,8 +149,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
                 Intent intent = new Intent(MainActivity.this, MusicListActivity.class);
                 intent.putExtra("userID", userID);
-                //musicList id
+                //musicList id needed
+                //TODO
                 //intent.putExtra("musicID",);
+                startActivity(intent);
+                return true;
+            }
+        });
+
+        favorite.setOnItemLongClickListener(new ExpandableListView.OnItemLongClickListener(){
+
+            /**
+             * Callback method to be invoked when an item in this view has been
+             * clicked and held.
+             * <p>
+             * Implementers can call getItemAtPosition(position) if they need to access
+             * the data associated with the selected item.
+             *
+             * @param parent   The AbsListView where the click happened
+             * @param view     The view within the AbsListView that was clicked
+             * @param position The position of the view in the list
+             * @param id       The row id of the item that was clicked
+             * @return true if the callback consumed the long click, false otherwise
+             */
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(MainActivity.this, ListOperation.class);
+                intent.putExtra("userID", userID);
+                //TODO: give it music list id before use
+                
                 startActivity(intent);
                 return true;
             }
@@ -171,6 +194,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(intent);
             }
         });
+    }
+
+    public void addList(View view) {
+        //TODO
+
+
     }
 
     public void notificationOnSelect() {

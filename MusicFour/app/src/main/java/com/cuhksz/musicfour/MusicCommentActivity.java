@@ -11,12 +11,23 @@ import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 public class MusicCommentActivity extends AppCompatActivity {
+    private String userID;
+    private static final String USERID = "userID";
+    private String musicID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music_comment);
+
+        userID = (String)getIntent().getExtras().get(USERID);
+        musicID = (String)getIntent().getExtras().get("musicID");
 
         final CommentList commentList = new CommentList();
 
@@ -54,7 +65,11 @@ public class MusicCommentActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String comment_to_send = (String) commentToSend.getText().toString();
                 if (!TextUtils.isEmpty(comment_to_send)) {
-                    Comment comment = new Comment("英国佬", comment_to_send, null);
+                    Date present = new Date();
+                    long s = present.getTime()/100000;
+                    String n=Long.toString(s);
+                    List<Reply> emptyReply = new ArrayList<>();
+                    Comment comment = new Comment("英国佬", comment_to_send, n, "1", null, emptyReply);
                     commentList.addComment(comment);
                     Toast.makeText(MusicCommentActivity.this,"发送成功", Toast.LENGTH_SHORT).show();
                     commentToSend.getText().clear();
