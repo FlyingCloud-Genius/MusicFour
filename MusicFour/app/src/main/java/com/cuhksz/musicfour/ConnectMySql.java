@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class ConnectMySql {
-    private List<Comment> commentList = new ArrayList<>();
     private String ip = "120.78.82.130";
     private int port = 3306;
     private String dbName = "MusicFour";
@@ -22,6 +21,7 @@ public class ConnectMySql {
     private String musicSheetID;
     private String musicSheetName;
     private String musicSheetInfo;
+    private List<Comment> commentList = new ArrayList<>();
     private List<String> musicSheetList = new ArrayList<>();
 
 
