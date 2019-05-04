@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
                 Intent intent = new Intent(MainActivity.this, MusicListActivity.class);
                 intent.putExtra("userID", userID);
-                //musicList id
+                //musicList id needed
                 //TODO
                 //intent.putExtra("musicID",);
                 startActivity(intent);
@@ -174,9 +174,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
              */
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
-
-                return false;
+                Intent intent = new Intent(MainActivity.this, ListOperation.class);
+                intent.putExtra("userID", userID);
+                //TODO: give it music list id before use
+                
+                startActivity(intent);
+                return true;
             }
         });
 
