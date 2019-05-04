@@ -142,7 +142,11 @@ public class ConnectMySql {
                 try {
                     Connection conn = DriverManager.getConnection(url, user, password);
                     Statement statement = conn.createStatement();
-                    String sql = "insert into musicsheet values('"+musicSheetID+"', '"+musicSheetName+"', '"+musicSheetInfo+"', '"+userID+"')";
+                    String sql = "insert into registry values('" + regID + "', '" + regPassword + "')";
+                    statement.execute(sql);
+                    System.out.println("Insert reg!!!!!");
+
+                    sql = "insert into users values('" + musicSheetID + "', '" + musicSheetName + "', '" + musicSheetInfo + "', '" + userID +"')";
                     statement.execute(sql);
                     System.out.println("Insert!");
                     conn.close();
