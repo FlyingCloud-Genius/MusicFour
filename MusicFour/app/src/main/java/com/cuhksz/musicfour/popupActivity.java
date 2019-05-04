@@ -57,7 +57,7 @@ public class popupActivity extends AppCompatActivity {
             switch (v.getId()) {
                 case R.id.save:
                     Date present = new Date();
-                    long s = present.getTime()/100000;
+                    long s = present.getTime()%100000;
                     String n = "MS" + Long.toString(s);
                     String name = listName.getText().toString();
                     String content = description.getText().toString();
