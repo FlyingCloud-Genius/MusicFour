@@ -8,7 +8,11 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ListInfoActivity extends AppCompatActivity {
+    private List<String> tmpList = new ArrayList<>();
     private static TextView listName;
     private static TextView description;
     private static ImageButton back;
@@ -28,9 +32,9 @@ public class ListInfoActivity extends AppCompatActivity {
         listName = (TextView) findViewById(R.id.listName);
         description = (TextView) findViewById(R.id.listDescription);
 
-        //show the info from the database based on the musiclistid and userid
-        //TODO
-
+        ConnectMySql dataBase = new ConnectMySql();
+        tmpList = dataBase.getMusicSheetInfo(userID, musicListID);
+        listName.setText(tmpList.get(0));
     }
 
 
