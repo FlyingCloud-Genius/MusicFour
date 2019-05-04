@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.util.regex.*;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -36,7 +37,9 @@ public class RegisterActivity extends AppCompatActivity {
 
         if (!password1.equals(password2)){
             Toast.makeText(RegisterActivity.this,"passwords are not the same", Toast.LENGTH_SHORT).show();
-        }else {
+        }else if (!Pattern.matches("[0-9]{4}\\-[0-9]{2}\\-[0-9]{2}", birthday)){
+            Toast.makeText(RegisterActivity.this, "invalid birthday style", Toast.LENGTH_SHORT).show();
+        }else{
             Log.i("4001: ",name);
             Log.i("4001: ",gender);
             Log.i("4001: ",birthday);
