@@ -5,6 +5,7 @@ import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,7 +21,6 @@ public class MusicCommentActivity extends AppCompatActivity {
     private static final String USERID = "userID";
     private String musicID;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +30,9 @@ public class MusicCommentActivity extends AppCompatActivity {
         musicID = (String)getIntent().getExtras().get("musicID");
 
         final CommentList commentList = new CommentList();
+        commentList.buildCommentList();
+
+        CommentList musicCommentList = new CommentList();
 
         ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.commentListView);
         final EditText commentToSend = (EditText) findViewById(R.id.commentToSend);
@@ -37,10 +40,21 @@ public class MusicCommentActivity extends AppCompatActivity {
 
         expandableListView.setGroupIndicator(null);
 
-        final CommentAdapter adapter = new CommentAdapter(this, commentList);
+        Log.i("4001:","start build new comments");
+        for (Comment cmt:commentList.getCommentList()){
+            Log.i("4001:","in loops");
+            if (cmt.getMusicID().equals(musicID)){
+                Log.i("4001:",cmt.getComment());
+                musicCommentList.addComment(cmt);
+            }
+        }
+        Log.i("4001:","finish build new comments");
+
+
+        final CommentAdapter adapter = new CommentAdapter(this, musicCommentList);
         expandableListView.setAdapter(adapter);
 
-        for (int i=0; i < commentList.size(); i++){
+        for (int i=0; i < musicCommentList.size(); i++){
             expandableListView.expandGroup(i);
         }
 
@@ -67,7 +81,7 @@ public class MusicCommentActivity extends AppCompatActivity {
                 if (!TextUtils.isEmpty(comment_to_send)) {
                     Date present = new Date();
                     long s = present.getTime()/100000;
-                    String n=Long.toString(s);
+                    String n="C"+Long.toString(s);
                     List<Reply> emptyReply = new ArrayList<>();
                     Comment comment = new Comment("英国佬", comment_to_send, n, "1", null, emptyReply);
                     commentList.addComment(comment);

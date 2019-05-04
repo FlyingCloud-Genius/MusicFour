@@ -9,7 +9,12 @@ public class CommentList {
     private List<Comment> tmpList = new ArrayList<>();
     private List<Comment> replyList = new ArrayList<>();
 
-    public CommentList() {
+    public CommentList(){}
+
+    public void buildCommentList() {
+        commentList.clear();
+        tmpList.clear();
+        replyList.clear();
         ConnectMySql dataBase = new ConnectMySql();
         tmpList = dataBase.getCommentListFromMySql();
         for(Comment tmp:tmpList) {

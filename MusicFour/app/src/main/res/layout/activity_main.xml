@@ -41,7 +41,7 @@
                 android:id="@+id/addGroup"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textSize="40dp"
+                android:textSize="30dp"
                 android:text="add list"
                 android:onClick="addList"
                 />

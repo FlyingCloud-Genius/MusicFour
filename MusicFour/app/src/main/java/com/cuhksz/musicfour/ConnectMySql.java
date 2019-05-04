@@ -20,6 +20,8 @@ public class ConnectMySql {
     private String password = "123456";
     private String userID;
     private String musicSheetID;
+    private String musicSheetName;
+    private String musicSheetInfo;
     private List<String> musicSheetList = new ArrayList<>();
 
 
@@ -75,6 +77,19 @@ public class ConnectMySql {
         deleteMusicSheetThread.start();
         try {
             deleteMusicSheetThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void insertMusicSheet(String musicSheetID, String musicSheetName, String musicSheetInfo, String userID) {
+        this.userID = userID;
+        this.musicSheetID = musicSheetID;
+        this.musicSheetName = musicSheetName;
+        this.musicSheetInfo = musicSheetInfo;
+        insertMusicSheetThread.start();
+        try {
+            insertMusicSheetThread.join();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -268,7 +283,31 @@ public class ConnectMySql {
                             "WHERE UID="+userID+" and MSID="+musicSheetID;
                     statement.execute(sql1);
                     statement.execute(sql2);
-                    System.out.println("Deleted");
+                    System.out.println("Deleted!");
+                    conn.close();
+                    return;
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    });
+
+    final Thread insertMusicSheetThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            while (!Thread.interrupted()) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    Connection conn = DriverManager.getConnection(url, user, password);
+                    Statement statement = conn.createStatement();
+                    String sql = "insert into musicsheet values('"+musicSheetID+"', '"+musicSheetName+"', '"+musicSheetInfo+"', '"+userID+"')";
+                    statement.execute(sql);
+                    System.out.println("Insert!");
                     conn.close();
                     return;
                 } catch (SQLException e) {
