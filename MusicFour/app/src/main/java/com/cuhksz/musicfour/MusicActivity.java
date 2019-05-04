@@ -55,6 +55,7 @@ public class MusicActivity extends Activity {
             }
         }
 
+
         currentTime = (TextView) findViewById(R.id.current_time);
         totalTime = (TextView) findViewById(R.id.total_time);
         play = (Button) findViewById(R.id.start);

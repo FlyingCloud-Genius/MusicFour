@@ -71,8 +71,8 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent">
 
-
         </android.support.constraint.ConstraintLayout>
+
     </LinearLayout>
 
     <android.support.design.widget.NavigationView
