@@ -20,9 +20,9 @@ public class MusicOperation extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        int musicID = (int) getIntent().getExtras().get(MUSICID);
+        String musicID = (String) getIntent().getExtras().get(MUSICID);
         for(Map<String, Object> map:Music.getMusics()){
-            if ((int)map.get("musicID") == musicID){
+            if (map.get("musicID").equals(musicID)){
                 music = map;
             }
         }
@@ -59,7 +59,7 @@ public class MusicOperation extends ListActivity {
 
         if (position == 4){
             Intent info_intent = new Intent(MusicOperation.this,MusicInfoActivity.class);
-            info_intent.putExtra(MUSICID,(int)music.get("musicID"));
+            info_intent.putExtra(MUSICID,(String) music.get("musicID"));
             startActivity(info_intent);
         }    //go to the music information interface
 

@@ -2,6 +2,7 @@ package com.cuhksz.musicfour;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,10 +19,15 @@ public class MusicInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music_info);
 
-        int musicID = (int) getIntent().getExtras().get(MUSICID);
+        String musicID = getIntent().getStringExtra(MUSICID);
+        if (musicID == null) {
+            Log.i("4001: ", "null ID");
+        }
         for(Map<String, Object> map:Music.getMusics()){
-            if ((int)map.get("musicID") == musicID){
+            Log.i("4001: musicID",musicID);
+            if (map.get("musicID").equals(musicID)){
                 music = map;
+                Log.i("4001: ","music is set");
             }
         }
 

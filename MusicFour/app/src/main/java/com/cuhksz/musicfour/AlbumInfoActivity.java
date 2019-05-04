@@ -18,9 +18,11 @@ public class AlbumInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album_info);
 
+        Album.buildAlbums();
+
         String albumID = (String) getIntent().getExtras().get(ALBUMID);
         for(Map<String, Object> map:Album.getAlbums()){
-            if ((String)map.get("albumID") == albumID){
+            if (map.get("albumID").equals(albumID)){
                 album = map;
             }
         }
@@ -30,7 +32,7 @@ public class AlbumInfoActivity extends AppCompatActivity {
         TextView musician = (TextView) findViewById(R.id.albumInfoMusician);
 
         photo.setImageResource((int)album.get("imageID"));
-        musicName.setText((String)album.get("music"));
-        musician.setText((String)album.get("musician"));
+        musicName.setText((String)album.get("album"));
+        musician.setText((String)album.get("publisher"));
     }
 }
