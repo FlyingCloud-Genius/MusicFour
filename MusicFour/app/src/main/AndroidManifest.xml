@@ -27,12 +27,14 @@
         <activity android:name=".MusicOperation" />
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login" >
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
+            android:label="@string/title_activity_login">
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".MainActivity"
@@ -50,6 +52,7 @@
         <service android:name=".MusicService" />
 
         <activity android:name=".SearchActivity" />
+        <activity android:name=".AlbumInfoActivity"></activity>
     </application>
 
 </manifest>
