@@ -195,8 +195,8 @@ public class ConnectMySql {
                     Connection conn = DriverManager.getConnection(url, user, password);
                     Statement statement = conn.createStatement();
                     String sql = "select AID, AName, p.PID, p.PName, APublishDate, m.MsnID, m.MsnName, imageID " +
-                            "FROM album a, publisher p, musician m" +
-                            "WHERE a.MsnID = m.MsnID and a.PID = p.PID";
+                            "FROM album a, publisher p, musician m " +
+                            "WHERE a.MsnID = m.MsnID AND a.PID = p.PID ";
                     ResultSet rs = statement.executeQuery(sql);
                     String AID = null;
                     String AName = null;
