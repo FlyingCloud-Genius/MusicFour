@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:dist="http://schemas.android.com/apk/distribution"
     package="com.cuhksz.musicfour">
-
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
@@ -21,6 +20,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".ListInfoActivity"></activity>
         <activity android:name=".MusicCommentActivity" />
         <activity android:name=".MusicListActivity" />
         <activity android:name=".MusicInfoActivity" />
@@ -52,7 +52,7 @@
         <service android:name=".MusicService" />
 
         <activity android:name=".SearchActivity" />
-        <activity android:name=".AlbumInfoActivity"></activity>
+        <activity android:name=".AlbumInfoActivity" />
     </application>
 
 </manifest>

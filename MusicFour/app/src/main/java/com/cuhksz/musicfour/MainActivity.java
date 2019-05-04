@@ -81,6 +81,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent intent = getIntent();
         userID = intent.getStringExtra("userID");
 
+        homeOnSelect();
+
 //        MySQLConnector connector = new MySQLConnector();
 //        connector.getConnection();
 //        connector.getData();
