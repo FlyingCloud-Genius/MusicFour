@@ -8,9 +8,10 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-public class ListOperation extends ListActivity {
+public class ListOperationActivity extends ListActivity {
     private String musicListID;
     private String userID;
+    private static ListView operationList;
 
 
     @Override
@@ -21,11 +22,14 @@ public class ListOperation extends ListActivity {
 
         musicListID = intent.getStringExtra("musicListID");
         userID = intent.getStringExtra("userID");
-        ArrayAdapter<String> musicListOperationList = new ArrayAdapter<String>(
+        operationList = getListView();
+
+        ArrayAdapter<String> operationListAdapter = new ArrayAdapter<String>(
                 this,
                 android.R.layout.simple_list_item_1,
                 new String[] {"歌单信息", "删除", "收藏", "播放"}
-                );
+        );
+        operationList.setAdapter(operationListAdapter);
     }
 
     @Override
