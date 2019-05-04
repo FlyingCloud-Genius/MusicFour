@@ -9,6 +9,9 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.regex.*;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -34,6 +37,10 @@ public class RegisterActivity extends AppCompatActivity {
         String name = inputName.getText().toString();
         String gender = inputGender.getSelectedItem().toString();
         String birthday = inputBirthday.getText().toString();
+
+        Date date = new Date();
+        SimpleDateFormat dateFormat= new SimpleDateFormat("yyyyMMddhhmmss");
+        String userID = dateFormat.format(date);
 
         if (!password1.equals(password2)){
             Toast.makeText(RegisterActivity.this,"passwords are not the same", Toast.LENGTH_SHORT).show();

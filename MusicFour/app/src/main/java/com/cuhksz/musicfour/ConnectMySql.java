@@ -77,12 +77,13 @@ public class ConnectMySql {
         return this.musicSheetList;
     }
 
-    public void insertRegistry(String email, String password, String name, String gender, String birthday) {
+    public void insertRegistry(String email, String password, String name, String gender, String birthday, String userID) {
         this.regID = email;
         this.regPassword = password;
         this.userName = name;
         this.userGender = gender;
         this.userBirth = birthday;
+        this.userID = userID;
         insertRegistryThread.start();
         try {
             insertRegistryThread.join();
@@ -146,9 +147,9 @@ public class ConnectMySql {
                     statement.execute(sql);
                     System.out.println("Insert reg!!!!!");
 
-                    sql = "insert into users values('" + musicSheetID + "', '" + musicSheetName + "', '" + musicSheetInfo + "', '" + userID +"')";
+                    sql = "insert into users values('" + userID + "', '" + userName + "', '" + userBirth + "', '', '" + userGender + "', '" + regID + "')";
                     statement.execute(sql);
-                    System.out.println("Insert!");
+                    System.out.println("Insert user!!!!!!");
                     conn.close();
                     return;
                 } catch (SQLException e) {
