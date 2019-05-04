@@ -12,12 +12,16 @@ import java.util.Map;
 public class MusicInfoActivity extends AppCompatActivity {
 
     private static final String MUSICID = "musicID";
+    private static final String USERID = "userID";
+    private String userID;
     private static Map<String, Object> music = new HashMap<String,Object>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music_info);
+
+        userID = (String)getIntent().getExtras().get(USERID);
 
         String musicID = getIntent().getStringExtra(MUSICID);
         if (musicID == null) {

@@ -12,11 +12,18 @@ import android.widget.ExpandableListView;
 import android.widget.Toast;
 
 public class MusicCommentActivity extends AppCompatActivity {
+    private String userID;
+    private static final String USERID = "userID";
+    private String musicID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music_comment);
+
+        userID = (String)getIntent().getExtras().get(USERID);
+        musicID = (String)getIntent().getExtras().get("musicID");
 
         final CommentList commentList = new CommentList();
 
