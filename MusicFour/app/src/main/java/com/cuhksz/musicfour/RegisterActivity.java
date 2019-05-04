@@ -47,6 +47,9 @@ public class RegisterActivity extends AppCompatActivity {
         }else if (!Pattern.matches("[0-9]{4}\\-[0-9]{2}\\-[0-9]{2}", birthday)){
             Toast.makeText(RegisterActivity.this, "invalid birthday style", Toast.LENGTH_SHORT).show();
         }else{
+            ConnectMySql connector = new ConnectMySql();
+            connector.insertRegistry(email, password1, name, gender, birthday, userID);
+
             Log.i("4001: ",name);
             Log.i("4001: ",gender);
             Log.i("4001: ",birthday);
