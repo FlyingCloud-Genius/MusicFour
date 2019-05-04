@@ -29,7 +29,7 @@ public class ListInfoActivity extends AppCompatActivity {
         description = (TextView) findViewById(R.id.listDescription);
 
         //show the info from the database based on the musiclistid and userid
-
+        //TODO
 
     }
 

@@ -33,16 +33,20 @@ public class ListOperation extends ListActivity {
         super.onListItemClick(l, v, position, id);
         if (position == 0) {
             //show the music sheet information
-
+            Intent intent = new Intent(this, ListInfoActivity.class);
+            intent.putExtra("userID", userID);
+            intent.putExtra("musicListID", musicListID);
+            startActivity(intent);
         } else if (position == 1) {
             //delete the information from the database ad return to the origin interface
+            //TODO
 
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("userID", userID);
             startActivity(intent);
         } else if (position == 2) {
             //add this to the music sheets
-
+            //TODO
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("userID", userID);
             startActivity(intent);

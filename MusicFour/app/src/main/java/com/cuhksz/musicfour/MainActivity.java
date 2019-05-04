@@ -83,10 +83,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         homeOnSelect();
 
-//        MySQLConnector connector = new MySQLConnector();
-//        connector.getConnection();
-//        connector.getData();
-//        System.out.println("hello world!!");
     }
 
     public void homeOnSelect() {
@@ -108,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent intent = new Intent(MainActivity.this, MusicListActivity.class);
                 intent.putExtra("userID", userID);
                 //musicList ID
+                //TODO
                 //intent.putExtra("musicList", );
                 startActivity(intent);
             }
@@ -156,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent intent = new Intent(MainActivity.this, MusicListActivity.class);
                 intent.putExtra("userID", userID);
                 //musicList id
+                //TODO
                 //intent.putExtra("musicID",);
                 startActivity(intent);
                 return true;
