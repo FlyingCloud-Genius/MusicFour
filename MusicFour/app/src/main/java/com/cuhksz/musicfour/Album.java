@@ -36,7 +36,6 @@ public class Album {
 
     public static void buildAlbums(){
         albums.clear();
-
         ConnectMySql connector = new ConnectMySql();
         List<Album> albumInfoList = connector.getAlbumInfo();
         for (int i = 0; i < albumInfoList.size(); i++){

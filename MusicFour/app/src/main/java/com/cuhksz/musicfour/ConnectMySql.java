@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class ConnectMySql {
-    private List<Comment> commentList = new ArrayList<>();
     private String ip = "120.78.82.130";
     private int port = 3306;
     private String dbName = "MusicFour";
@@ -22,6 +21,7 @@ public class ConnectMySql {
     private String musicSheetID;
     private String musicSheetName;
     private String musicSheetInfo;
+    private List<Comment> commentList = new ArrayList<>();
     private List<String> musicSheetList = new ArrayList<>();
     private List<SpecialMusicList> wholeMusicSheetList = new ArrayList<>();
 
@@ -206,8 +206,8 @@ public class ConnectMySql {
                     Connection conn = DriverManager.getConnection(url, user, password);
                     Statement statement = conn.createStatement();
                     String sql = "select AID, AName, p.PID, p.PName, APublishDate, m.MsnID, m.MsnName, imageID " +
-                            "FROM album a, publisher p, musician m" +
-                            "WHERE a.MsnID = m.MsnID and a.PID = p.PID";
+                            "FROM album a, publisher p, musician m " +
+                            "WHERE a.MsnID = m.MsnID AND a.PID = p.PID ";
                     ResultSet rs = statement.executeQuery(sql);
                     String AID = null;
                     String AName = null;
