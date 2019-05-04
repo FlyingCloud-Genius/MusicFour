@@ -30,21 +30,19 @@ public class Album {
 
     public static void buildAlbum(){
         albums.clear();
-        Music music1 = new Album(00001, "剑灵原声音乐选辑", "Fun.,Janelle Monae", R.drawable.music00001);
+        ArrayList<String> musics1 = new ArrayList<>();
+        musics1.add("");
+        Album music1 = new Album(00001, "剑灵原声音乐选辑", "大韩音乐公司", musics1);
         albums.add(music1.map);
-        Music music2 = new Album(00002, "你的名字原声带", "生物股长", R.drawable.music00002);
+        Album music2 = new Album(00002, "你的名字原声带", "索尼音乐", musics1);
         albums.add(music2.map);
-        Music music3 = new Album(00003, "A Z aLIEz", "小林未郁", R.drawable.music00003);
+        Album music3 = new Album(00003, "A Z aLIEz", "索尼音乐", musics1);
         albums.add(music3.map);
-        Music music4 = new Album(00004, "ninelie", "Aimer, EGOIST", R.drawable.music00004);
+        Album music4 = new Album(00004, "ninelie", "索尼音乐", musics1);
         albums.add(music4.map);
-        Music music5 = new Album(00005, "逆光", "陈芳雨、李紫婷、吴映香、刘德熙、陈语嫣", R.drawable.music00005);
-        albums.add(music5.map);
-        Music music6 = new Album(00006, "시련의 나날들","金致焕", R.drawable.music00006);
-        albums.add(music6.map);
     }
 
     public static ArrayList<Map<String, Object>> getMusics(){
-        return musics;
+        return albums;
     }
 }
