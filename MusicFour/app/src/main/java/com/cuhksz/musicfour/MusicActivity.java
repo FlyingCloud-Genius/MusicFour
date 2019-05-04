@@ -251,6 +251,7 @@ public class MusicActivity extends Activity {
     public void onClickToMusicList(View view) {
         Intent intentToMusicList = new Intent(MusicActivity.this, MusicListActivity.class);
         intentToMusicList.putExtra("musicListID","1");
+
         intentToMusicList.putExtra(USERID,userID);
         startActivity(intentToMusicList);
     }
@@ -258,6 +259,7 @@ public class MusicActivity extends Activity {
     public void onClickToComment(View view) {
         Intent intentToComment = new Intent(MusicActivity.this, MusicCommentActivity.class);
         intentToComment.putExtra("musicID","2");
+
         intentToComment.putExtra(USERID,userID);
         startActivity(intentToComment);
     }
@@ -265,6 +267,7 @@ public class MusicActivity extends Activity {
     public void onClickToAlbum(View view) {
         Intent intentToAlbum = new Intent(MusicActivity.this, AlbumInfoActivity.class);
         intentToAlbum.putExtra("albumID","1");
+
         intentToAlbum.putExtra(USERID,userID);
         startActivity(intentToAlbum);
     }
