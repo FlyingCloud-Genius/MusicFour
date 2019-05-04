@@ -34,6 +34,7 @@ public class MusicListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(MusicListActivity.this, MusicActivity.class);
+                intent.putExtra(MUSICID, (int)Music.getMusics().get(i).get("musicID"));
                 startActivity(intent);
             }
         });

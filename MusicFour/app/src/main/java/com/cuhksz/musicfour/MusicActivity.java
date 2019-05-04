@@ -55,6 +55,7 @@ public class MusicActivity extends Activity {
             }
         }
 
+
         currentTime = (TextView) findViewById(R.id.current_time);
         totalTime = (TextView) findViewById(R.id.total_time);
         play = (Button) findViewById(R.id.start);
@@ -158,6 +159,7 @@ public class MusicActivity extends Activity {
                     } else {
                         module.setText("next");
                         playingModule = "next";
+
                     }
             }
         }
@@ -220,8 +222,6 @@ public class MusicActivity extends Activity {
     public void onDestroy() {
         super.onDestroy();
         unbindService(conn);
-        stopService(intent);
-        finish();
     }
 
 
@@ -250,6 +250,11 @@ public class MusicActivity extends Activity {
     public void onClickToComment(View view) {
         Intent intentToComment = new Intent(MusicActivity.this, MusicCommentActivity.class);
         startActivity(intentToComment);
+    }
+
+    public void onClickToAlbum(View view) {
+        Intent intentToAlbum = new Intent(MusicActivity.this, AlbumInfoActivity.class);
+        startActivity(intentToAlbum);
     }
 
 }
