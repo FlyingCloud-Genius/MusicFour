@@ -16,12 +16,16 @@ import java.util.Map;
 
 public class MusicListActivity extends AppCompatActivity {
     private static final String MUSICID = "musicID";
+    private static final String USERID = "userID";
+    private String userID;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music_list);
+
+        userID = (String) getIntent().getExtras().get(USERID);
 
         Music.buildMusics();
 
@@ -34,7 +38,8 @@ public class MusicListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(MusicListActivity.this, MusicActivity.class);
-                intent.putExtra(MUSICID, (int)Music.getMusics().get(i).get("musicID"));
+                intent.putExtra(USERID, userID);
+                intent.putExtra(MUSICID, (String) Music.getMusics().get(i).get("musicID"));
                 startActivity(intent);
             }
         });
@@ -43,7 +48,9 @@ public class MusicListActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(MusicListActivity.this, MusicOperation.class);
-                intent.putExtra(MUSICID, (int)Music.getMusics().get(i).get("musicID"));
+                intent.putExtra(USERID, userID);
+                intent.putExtra(MUSICID, Music.getMusics().get(i).get("musicID").toString());
+                System.out.println(Music.getMusics().get(i).get("musicID"));
                 startActivity(intent);
                 return true;
             }

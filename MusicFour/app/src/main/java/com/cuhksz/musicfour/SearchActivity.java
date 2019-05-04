@@ -12,6 +12,9 @@ import android.widget.SimpleAdapter;
 
 public class SearchActivity extends AppCompatActivity {
     private static final String MUSICID = "musicID";
+    private static final String USERID = "userID";
+    private String userID;
+
 
 
     @Override
@@ -19,6 +22,7 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+        userID = (String) getIntent().getExtras().get(USERID);
         Music.buildMusics();
 
         SimpleAdapter adapter = new SimpleAdapter(this, Music.getMusics(), R.layout.music_list_item,
@@ -32,6 +36,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(SearchActivity.this, MusicActivity.class);
+                intent.putExtra(USERID,userID);
                 intent.putExtra(MUSICID, (int)Music.getMusics().get(i).get("musicID"));
                 startActivity(intent);
             }
@@ -41,6 +46,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(SearchActivity.this, MusicOperation.class);
+                intent.putExtra(USERID,userID);
                 intent.putExtra(MUSICID, (int)Music.getMusics().get(i).get("musicID"));
                 startActivity(intent);
                 return true;

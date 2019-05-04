@@ -11,6 +11,7 @@ import java.util.Map;
 public class AlbumInfoActivity extends AppCompatActivity {
 
     private static final String ALBUMID = "albumID";
+    private static final String USERID = "userID";
     private static Map<String, Object> album = new HashMap<String,Object>();
 
     @Override
@@ -18,19 +19,26 @@ public class AlbumInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album_info);
 
+        Album.buildAlbums();
+        String userID = (String) getIntent().getExtras().get(USERID);
+
         String albumID = (String) getIntent().getExtras().get(ALBUMID);
         for(Map<String, Object> map:Album.getAlbums()){
-            if ((String)map.get("albumID") == albumID){
+            if (map.get("albumID").equals(albumID)){
                 album = map;
             }
         }
 
         ImageView photo = (ImageView) findViewById(R.id.albumInfoPhoto);
-        TextView musicName = (TextView) findViewById(R.id.albumInfoMusic);
+        TextView albumName = (TextView) findViewById(R.id.albumInfoAlbum);
+        TextView publisher = (TextView) findViewById(R.id.albumInfoPublisher);
+        TextView publishDate = (TextView) findViewById(R.id.albumInfoPublishDate);
         TextView musician = (TextView) findViewById(R.id.albumInfoMusician);
 
         photo.setImageResource((int)album.get("imageID"));
-        musicName.setText((String)album.get("music"));
+        albumName.setText((String)album.get("album"));
+        publisher.setText((String)album.get("publisher"));
+        publishDate.setText((String)album.get("publishDate"));
         musician.setText((String)album.get("musician"));
     }
 }
