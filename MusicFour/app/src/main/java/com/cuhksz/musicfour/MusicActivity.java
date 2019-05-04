@@ -251,4 +251,9 @@ public class MusicActivity extends Activity {
         startActivity(intentToComment);
     }
 
+    public void onClickToAlbum(View view) {
+        Intent intentToAlbum = new Intent(MusicActivity.this, AlbumInfoActivity.class);
+        startActivity(intentToAlbum);
+    }
+
 }
