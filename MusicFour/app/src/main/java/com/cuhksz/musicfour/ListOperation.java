@@ -39,8 +39,8 @@ public class ListOperation extends ListActivity {
             startActivity(intent);
         } else if (position == 1) {
             //delete the information from the database ad return to the origin interface
-            //TODO
-
+            ConnectMySql dataBase = new ConnectMySql();
+            dataBase.deleteMusicSheet(userID, musicListID);
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("userID", userID);
             startActivity(intent);
