@@ -35,6 +35,7 @@ public class ListInfoActivity extends AppCompatActivity {
         ConnectMySql dataBase = new ConnectMySql();
         tmpList = dataBase.getMusicSheetInfo(userID, musicListID);
         listName.setText(tmpList.get(0));
+        description.setText(tmpList.get(1));
     }
 
 

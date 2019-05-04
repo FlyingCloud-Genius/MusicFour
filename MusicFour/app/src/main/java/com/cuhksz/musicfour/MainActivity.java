@@ -32,6 +32,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 //    private ListView static_option;
@@ -118,11 +119,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         
         //set items in the favorite lsit
         favorite = (ExpandableListView) findViewById(R.id.favorite);
+        ConnectMySql dataBase = new ConnectMySql();
+        List<SpecialMusicList> tmpList = new ArrayList<>();
+        tmpList = dataBase.getWholeMusicSheetList(userID);
+
         MusicList myList = new MusicList();
-        myList.putItem("favorite", 0);
+        for(SpecialMusicList tmp:tmpList) {
+            myList.putItem(tmp.getMusicSheetName(), tmp.getCountMusicNum());
+        }
 
         ArrayList<String> groupName = new ArrayList<>();
-        groupName.add("Group: my creation");
+        groupName.add("Group: My Creation");
 
         ArrayList<MusicList> total = new ArrayList<>();
         total.add(myList);
@@ -148,10 +155,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
                 Intent intent = new Intent(MainActivity.this, MusicListActivity.class);
+                ConnectMySql dataBase = new ConnectMySql();
+                List<SpecialMusicList> tmpList = dataBase.getWholeMusicSheetList(userID);
                 intent.putExtra("userID", userID);
-                //musicList id needed
-                //TODO
-                //intent.putExtra("musicID",);
+                intent.putExtra("musicListID", tmpList.get(i1).getMusicSheetID());
                 startActivity(intent);
                 return true;
             }
@@ -176,8 +183,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this, ListOperation.class);
                 intent.putExtra("userID", userID);
-                //TODO: give it music list id before use
-
+                ConnectMySql dataBase = new ConnectMySql();
+                List<SpecialMusicList> tmpList = dataBase.getWholeMusicSheetList(userID);
+                intent.putExtra("userID", userID);
+                intent.putExtra("musicListID", tmpList.get(position).getMusicSheetID());
                 startActivity(intent);
                 return true;
             }

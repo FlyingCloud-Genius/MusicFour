@@ -45,11 +45,11 @@ public class ListOperation extends ListActivity {
             intent.putExtra("userID", userID);
             startActivity(intent);
         } else if (position == 2) {
-            //add this to the music sheets
-            //TODO
-            Intent intent = new Intent(this, MainActivity.class);
-            intent.putExtra("userID", userID);
-            startActivity(intent);
+//            //add this to the music sheets
+//            //TODO
+//            Intent intent = new Intent(this, MainActivity.class);
+//            intent.putExtra("userID", userID);
+//            startActivity(intent);
         } else if (position == 3) {
             //start the listening to the list
 
