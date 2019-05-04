@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ConstraintLayout bottom;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+    private String userID;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -78,8 +79,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //initial the home page
         Intent intent = getIntent();
-        String userID = intent.getStringExtra("userID");
+        userID = intent.getStringExtra("userID");
 
+//        MySQLConnector connector = new MySQLConnector();
+//        connector.getConnection();
+//        connector.getData();
+//        System.out.println("hello world!!");
     }
 
     public void homeOnSelect() {
@@ -99,7 +104,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(MainActivity.this, MusicListActivity.class);
-
+                intent.putExtra("userID", userID);
+                //musicList ID
+                //intent.putExtra("musicList", );
                 startActivity(intent);
             }
         });
@@ -117,8 +124,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mix.putItem("100 for learning", 100);
 
         ArrayList<String> groupName = new ArrayList<>();
-        groupName.add("my creation");
-        groupName.add("Mixed");
+        groupName.add("Group: my creation");
+        groupName.add("Group: Mixed");
 
         ArrayList<MusicList> total = new ArrayList<>();
         total.add(mix);
@@ -137,7 +144,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public boolean onGroupClick(ExpandableListView expandableListView, View view, int i, long l) {
                 BottomSheetDialog dialog = new BottomSheetDialog(MainActivity.this);
-
                 return false;
             }
         });
@@ -146,7 +152,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i1, long l) {
                 Intent intent = new Intent(MainActivity.this, MusicListActivity.class);
-
+                intent.putExtra("userID", userID);
+                //musicList id
+                //intent.putExtra("musicID",);
                 startActivity(intent);
                 return true;
             }
@@ -158,6 +166,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, MusicActivity.class);
+                intent.putExtra("userID", userID);
+
                 startActivity(intent);
             }
         });
