@@ -16,11 +16,11 @@ public class AlbumInfoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_music_info);
+        setContentView(R.layout.activity_album_info);
 
-        int albumID = (int) getIntent().getExtras().get(ALBUMID);
+        String albumID = (String) getIntent().getExtras().get(ALBUMID);
         for(Map<String, Object> map:Album.getAlbums()){
-            if ((int)map.get("albumID") == albumID){
+            if ((String)map.get("albumID") == albumID){
                 album = map;
             }
         }

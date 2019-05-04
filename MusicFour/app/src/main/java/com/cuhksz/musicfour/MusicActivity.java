@@ -253,6 +253,7 @@ public class MusicActivity extends Activity {
 
     public void onClickToAlbum(View view) {
         Intent intentToAlbum = new Intent(MusicActivity.this, AlbumInfoActivity.class);
+        intentToAlbum.putExtra("albumID","00001");
         startActivity(intentToAlbum);
     }
 
