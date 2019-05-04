@@ -17,7 +17,9 @@ import java.util.Map;
 public class MusicListActivity extends AppCompatActivity {
     private static final String MUSICID = "musicID";
     private static final String USERID = "userID";
+    private ArrayList<Map<String, Object>> targetMusics = new ArrayList<>();
     private String userID;
+    private ArrayList<String> musicsID;
 
 
     @Override
@@ -26,10 +28,21 @@ public class MusicListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_music_list);
 
         userID = (String) getIntent().getExtras().get(USERID);
+        musicsID = getIntent().getStringArrayListExtra("musicsID");
 
         Music.buildMusics();
 
-        SimpleAdapter adapter = new SimpleAdapter(this, Music.getMusics(), R.layout.music_list_item,
+        for (Map<String,Object> music:Music.getMusics()){
+            String id = (String) music.get("musicID");
+            for (String i:musicsID){
+                if (id.equals(i)){
+                    targetMusics.add(music);
+                    break;
+                }
+            }
+        }
+
+        SimpleAdapter adapter = new SimpleAdapter(this, targetMusics, R.layout.music_list_item,
                 new String[]{"music", "musician"}, new int[]{R.id.musicListItemMusicName, R.id.musicListItemMusicianName});
 
         ListView musicList = (ListView)  findViewById(R.id.musicList);
