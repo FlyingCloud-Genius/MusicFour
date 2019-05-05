@@ -33,7 +33,7 @@ public class MusicActivity extends Activity {
     public static String[] musics = {"/sdcard/Music/胡歌 - 忘记时间.mp3",
             "/sdcard/Music/7AND5 - Remember.mp3",
             "/sdcard/Music/Coldplay - Viva La Vida.mp3",
-            "/sdcard/Music/Fall Out Boy - Immortals.mp3"};
+            "/sdcard/Music/Fall Out Boy - Immortals.mp3"};// get the play music list
     public static int currentSongIndex = 0;
     public String playingModule; // next same random
 
