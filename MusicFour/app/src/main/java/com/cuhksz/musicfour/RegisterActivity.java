@@ -41,7 +41,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         Date date = new Date();
         SimpleDateFormat dateFormat= new SimpleDateFormat("yyyyMMddhhmmss");
-        String userID = "u" + dateFormat.format(date);
+        String userID = "U" + dateFormat.format(date);
 
         if (!password1.equals(password2)){
             Toast.makeText(RegisterActivity.this,"passwords are not the same", Toast.LENGTH_SHORT).show();

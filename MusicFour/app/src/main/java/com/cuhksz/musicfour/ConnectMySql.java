@@ -21,6 +21,10 @@ public class ConnectMySql {
     private String musicSheetID;
     private String musicSheetName;
     private String musicSheetInfo;
+    private String commentID;
+    private String musicID;
+    private String comment;
+    private String ReplyTo;
 
     private String regID;
     private String regPassword;
@@ -136,6 +140,20 @@ public class ConnectMySql {
             e.printStackTrace();
         }
         return this.wholeMusicList;
+    }
+
+    public void insertComment(String commentID, String comment, String userID, String musicID, String ReplyTo) {
+        this.commentID = commentID;
+        this.comment = comment;
+        this.userID = userID;
+        this.musicID = musicID;
+        this.ReplyTo = ReplyTo;
+        insertCommentThread.start();
+        try {
+            insertCommentThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public ConnectMySql() {
@@ -350,10 +368,10 @@ public class ConnectMySql {
                 try {
                     Connection conn = DriverManager.getConnection(url, user, password);
                     Statement statement = conn.createStatement();
-                    String sql1 = "delete FROM MS_include WHERE MSID="+musicSheetID;
+                    String sql1 = "delete FROM MS_include WHERE MSID='"+musicSheetID+"'";
                     String sql2 = "delete " +
                             "FROM musicsheet " +
-                            "WHERE UID="+userID+" and MSID="+musicSheetID;
+                            "WHERE UID="+"'"+userID+"' and MSID='"+musicSheetID+"'";
                     statement.execute(sql1);
                     statement.execute(sql2);
                     System.out.println("Deleted!");
@@ -471,6 +489,38 @@ public class ConnectMySql {
                         wholeMusicList.add(new SpecialMusic(MscID, MscName, MsnName));
                     }
                     rs.close();
+                    conn.close();
+                    return;
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    });
+
+    final Thread insertCommentThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            while (!Thread.interrupted()) {
+                try {
+                    Thread.sleep(100);
+                }
+                catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    Connection conn = DriverManager.getConnection(url, user, password);
+                    Statement statement = conn.createStatement();
+                    String sql = null;
+                    if(ReplyTo == null) {
+                        sql = "insert into comments values('"+commentID+"', '"+comment+"', null, '"+musicID+"', '"+userID+"')";
+                    }
+                    else {
+                        sql = "insert into comments values('"+commentID+"', '"+comment+"', '"+ReplyTo+"', '"+musicID+"', '"+userID+"')";
+                    }
+                    statement.execute(sql);
+                    System.out.println("Insert!");
                     conn.close();
                     return;
                 }
