@@ -203,48 +203,46 @@ public class ConnectMySql {
                     e.printStackTrace();
                 }
             }
-        }
+            }
     });
 
 
     final Thread commentListThread = new Thread(new Runnable() {
         @Override
         public void run() {
-            synchronized (this) {
-                while (!Thread.interrupted()) {
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+            while (!Thread.interrupted()) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    Connection conn = DriverManager.getConnection(url, user, password);
+                    Statement statement = conn.createStatement();
+                    String sql = "select comID, UName, ComContent, ReplyTo, MscID " +
+                            "FROM comments, users " +
+                            "WHERE comments.UID = users.UID";
+                    ResultSet rs = statement.executeQuery(sql);
+                    String commentName = null;
+                    String comment = null;
+                    String commentID = null;
+                    String musicID = null;
+                    String ReplyTo = null;
+                    while (rs.next()) {
+                        List<Reply> emptyReply = new ArrayList<>();
+                        commentName = rs.getString("UName");
+                        comment = rs.getString("ComContent");
+                        commentID = rs.getString("comID");
+                        musicID = rs.getString("MscID");
+                        ReplyTo = rs.getString("ReplyTo");
+                        commentList.add(new Comment(commentName, comment, commentID, musicID, ReplyTo, emptyReply));
+                        System.out.println(commentName + " " + comment);
                     }
-                    try {
-                        Connection conn = DriverManager.getConnection(url, user, password);
-                        Statement statement = conn.createStatement();
-                        String sql = "select comID, UName, ComContent, ReplyTo, MscID " +
-                                "FROM comments, users " +
-                                "WHERE comments.UID = users.UID";
-                        ResultSet rs = statement.executeQuery(sql);
-                        String commentName = null;
-                        String comment = null;
-                        String commentID = null;
-                        String musicID = null;
-                        String ReplyTo = null;
-                        while (rs.next()) {
-                            List<Reply> emptyReply = new ArrayList<>();
-                            commentName = rs.getString("UName");
-                            comment = rs.getString("ComContent");
-                            commentID = rs.getString("comID");
-                            musicID = rs.getString("MscID");
-                            ReplyTo = rs.getString("ReplyTo");
-                            commentList.add(new Comment(commentName, comment, commentID, musicID, ReplyTo, emptyReply));
-                            System.out.println(commentName + " " + comment);
-                        }
-                        rs.close();
-                        conn.close();
-                        return;
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
+                    rs.close();
+                    conn.close();
+                    return;
+                } catch (SQLException e) {
+                    e.printStackTrace();
                 }
             }
         }
