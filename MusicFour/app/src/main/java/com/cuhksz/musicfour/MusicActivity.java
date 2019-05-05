@@ -6,6 +6,8 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,9 +17,12 @@ import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +44,7 @@ public class MusicActivity extends Activity {
     public static final String photoPath = "/mnt/sdcard/Pictures/";
     public static List<String> musics;// get the play music list
     public static List<String> playList;
+    public static List<String> coverList;
     public static List<String> musicIDs;
     public static List<String> localMusics;
     public static int currentSongIndex = 0;
@@ -55,6 +61,10 @@ public class MusicActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music);
 
+        userID = (String) getIntent().getExtras().get(USERID);
+        musicID = (String) getIntent().getExtras().get("musicID");
+        musicListID = (String) getIntent().getExtras().get("musicListID");
+
         //asking for authority
         if (Build.VERSION.SDK_INT >= 23) {
             int REQUEST_CODE_CONTACT = 101;
@@ -68,9 +78,7 @@ public class MusicActivity extends Activity {
             }
         }
 
-        userID = (String) getIntent().getExtras().get(USERID);
-        musicID = (String) getIntent().getExtras().get("musicID");
-        musicListID = (String) getIntent().getExtras().get("musicListID");
+
         musics = getMusicNames(musicListID);
         musicIDs = getMusicIDs(musicListID);
         localMusics = GetFiles.getAllFileName(musicPath,"mp3");
@@ -84,9 +92,17 @@ public class MusicActivity extends Activity {
             }
         }
         playList = new ArrayList<>();
+        coverList = new ArrayList<>();
         for (String i : musics) {
             playList.add(musicPath + i + ".mp3");
+            coverList.add(photoPath + i + ".jpg");
         }
+
+        //photo
+        ImageView image1 = (ImageView) findViewById(R.id.photo);
+        String photoUrl = coverList.get(currentSongIndex);
+        Bitmap bitmap = getLoacalBitmap(photoUrl);
+        image1.setImageBitmap(bitmap);
 
         currentTime = (TextView) findViewById(R.id.current_time);
         totalTime = (TextView) findViewById(R.id.total_time);
@@ -216,6 +232,10 @@ public class MusicActivity extends Activity {
                 currentSongIndex = playList.size() - 1;
             }
         }
+        ImageView image1 = (ImageView) findViewById(R.id.photo);
+        String photoUrl = coverList.get(currentSongIndex);
+        Bitmap bitmap = getLoacalBitmap(photoUrl);
+        image1.setImageBitmap(bitmap);
         mi.stop();
         mi.play(playList.get(currentSongIndex), playingModule);
     }
@@ -232,6 +252,10 @@ public class MusicActivity extends Activity {
                 randomIndex();
             }
         }
+        ImageView image1 = (ImageView) findViewById(R.id.photo);
+        String photoUrl = coverList.get(currentSongIndex);
+        Bitmap bitmap = getLoacalBitmap(photoUrl);
+        image1.setImageBitmap(bitmap);
         mi.stop();
         mi.play(playList.get(currentSongIndex), playingModule);
     }
@@ -344,4 +368,15 @@ public class MusicActivity extends Activity {
         startActivity(intentToAlbum);
     }
 
+
+    public static Bitmap getLoacalBitmap(String url) {
+        try {
+            FileInputStream fis = new FileInputStream(url);
+            return BitmapFactory.decodeStream(fis);  ///把流转化为Bitmap图片
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

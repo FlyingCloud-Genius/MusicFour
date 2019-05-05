@@ -23,6 +23,7 @@ public class ConnectMySql {
     private String musicSheetInfo;
     private String commentID;
     private String musicID;
+    private String musicName;
     private String comment;
     private String ReplyTo;
 
@@ -172,6 +173,17 @@ public class ConnectMySql {
         this.musicSheetID = musicSheetID;
         deleteMusicThread.start();
 
+    }
+
+    public String findMusicName(String musicID) {
+        this.musicID = musicID;
+        findMusicNameThread.start();
+        try {
+            findMusicNameThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return musicName;
     }
 
     public ConnectMySql() {
@@ -604,6 +616,33 @@ public class ConnectMySql {
                     String sql = "delete FROM MS_include WHERE MSID='"+musicSheetID+"' and  MscID='"+musicID+"'";
                     statement.execute(sql);
                     System.out.println("Delete Music!");
+                    conn.close();
+                    return;
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    });
+
+    final Thread findMusicNameThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            while (!Thread.interrupted()) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    Connection conn = DriverManager.getConnection(url, user, password);
+                    Statement statement = conn.createStatement();
+                    String findSql = "select MscName FROM music where MscID ='"+musicID+"'";
+                    ResultSet rs = statement.executeQuery(findSql);
+                    while(rs.next()) {
+                        musicName = rs.getString("MscName");
+                    }
+                    rs.close();
                     conn.close();
                     return;
                 } catch (SQLException e) {
