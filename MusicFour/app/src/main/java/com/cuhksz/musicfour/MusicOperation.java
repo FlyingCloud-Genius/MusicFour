@@ -14,23 +14,36 @@ import java.util.Map;
 public class MusicOperation extends ListActivity {
     private static final String MUSICID = "musicID";
     private static Map<String, Object> music = new HashMap<String,Object>();
+    private String musicID;
+    private String musicListID;
+    private String userID;
+    private String[] operationList;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String musicID = (String) getIntent().getExtras().get(MUSICID);
+        musicID = (String) getIntent().getExtras().get(MUSICID);
+        musicListID = (String) getIntent().getExtras().get("musicListID");
+        userID = (String) getIntent().getExtras().get("userID");
+
         for(Map<String, Object> map:Music.getMusics()){
             if (map.get("musicID").equals(musicID)){
                 music = map;
             }
         }
 
+        if (musicListID != null){
+            operationList = new String[]{"Like", "Comment", "Download", "Share", "Music information", "Add to music sheet", "Remove from music sheet"};
+        }else{
+            operationList = new String[]{"Like", "Comment", "Download", "Share", "Music information", "Add to music sheet"};
+        }
+
         ArrayAdapter<String> musicOperationAdapter = new ArrayAdapter<String>(
                 this,
                 android.R.layout.simple_list_item_1,
-                new String[]{"收藏", "评论", "下载", "分享", "歌曲信息", "添加到歌单", "从歌单中移除", "MV", "设为铃声"}
+                operationList
         );
 
         ListView musicOperationList = getListView();
@@ -63,14 +76,15 @@ public class MusicOperation extends ListActivity {
         }    //go to the music information interface
 
         if (position == 5){
+            Intent intent = new Intent(MusicOperation.this, AddMusicActivity.class);
+            intent.putExtra(MUSICID,musicID);
+            intent.putExtra("userID",userID);
+            startActivity(intent);
+        }   //add the music into music sheet
 
-        }    //add the music into music sheet
+        if (position == 6){
 
-        if (position == 6){}    //remove the music from music sheet
-
-        if (position == 7){}    //show the MV of the music
-
-        if (position == 8){}    //set the music as ringtone
+        }  //remove the music from music sheet
 
     }
 }

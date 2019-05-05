@@ -12,11 +12,13 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import java.util.List;
 import java.util.Random;
 
 public class MusicActivity extends Activity {
@@ -39,6 +41,8 @@ public class MusicActivity extends Activity {
 
     private static final String USERID = "userID";
     private String userID;
+    private String musicID;
+//    private String musicListID;
 
 
     @Override
@@ -47,6 +51,9 @@ public class MusicActivity extends Activity {
         setContentView(R.layout.activity_music);
 
         userID = (String) getIntent().getExtras().get(USERID);
+        musicID = (String) getIntent().getExtras().get("musicID");
+//        musicListID = (String) getIntent().getExtras().get("musicListID");
+//        Log.i("4001: musicListID", musicListID);
 
         //asking for authority
         if (Build.VERSION.SDK_INT >= 23) {
@@ -248,18 +255,25 @@ public class MusicActivity extends Activity {
         return musics[currentSongIndex];
     }
 
-    public void onClickToMusicList(View view) {
-        Intent intentToMusicList = new Intent(MusicActivity.this, MusicListActivity.class);
-        intentToMusicList.putExtra("musicListID","1");
-
-        intentToMusicList.putExtra(USERID,userID);
-        startActivity(intentToMusicList);
-    }
+//    public void onClickToMusicList(View view) {
+//        Intent intentToMusicList = new Intent(MusicActivity.this, MusicListActivity.class);
+//        ConnectMySql dataBase = new ConnectMySql();
+//        List<SpecialMusicList> tmpList = dataBase.getWholeMusicSheetList(userID);
+//        for (int i=0; i<tmpList.size(); i++){
+//            if (tmpList.get(i).getMusicSheetID().equals(musicListID)){
+//                Log.i("4001: iteratorID: ",tmpList.get(i).getMusicSheetID());
+//                intent.putStringArrayListExtra("musicsID", tmpList.get(i).getMusicInclude());
+//                break;
+//            }
+//        }
+//        intentToMusicList.putExtra("musicID",musicID);
+//        intentToMusicList.putExtra(USERID,userID);
+//        startActivity(intentToMusicList);
+//    }
 
     public void onClickToComment(View view) {
         Intent intentToComment = new Intent(MusicActivity.this, MusicCommentActivity.class);
-        intentToComment.putExtra("musicID","2");
-
+        intentToComment.putExtra("musicID",musicID);
         intentToComment.putExtra(USERID,userID);
         startActivity(intentToComment);
     }
@@ -267,7 +281,6 @@ public class MusicActivity extends Activity {
     public void onClickToAlbum(View view) {
         Intent intentToAlbum = new Intent(MusicActivity.this, AlbumInfoActivity.class);
         intentToAlbum.putExtra("albumID","1");
-
         intentToAlbum.putExtra(USERID,userID);
         startActivity(intentToAlbum);
     }
