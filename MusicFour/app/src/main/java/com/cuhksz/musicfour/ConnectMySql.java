@@ -21,6 +21,10 @@ public class ConnectMySql {
     private String musicSheetID;
     private String musicSheetName;
     private String musicSheetInfo;
+    private String commentID;
+    private String musicID;
+    private String comment;
+    private String ReplyTo;
 
     private String regID;
     private String regPassword;
@@ -30,6 +34,7 @@ public class ConnectMySql {
     private List<Comment> commentList = new ArrayList<>();
     private List<String> musicSheetList = new ArrayList<>();
     private List<SpecialMusicList> wholeMusicSheetList = new ArrayList<>();
+    private List<SpecialMusic> wholeMusicList = new ArrayList<>();
 
     /*store userID and userPassword in database*/
     private List<String> regInfoList = new ArrayList<>();
@@ -77,12 +82,13 @@ public class ConnectMySql {
         return this.musicSheetList;
     }
 
-    public void insertRegistry(String email, String password, String name, String gender, String birthday) {
+    public void insertRegistry(String email, String password, String name, String gender, String birthday, String userID) {
         this.regID = email;
         this.regPassword = password;
         this.userName = name;
         this.userGender = gender;
         this.userBirth = birthday;
+        this.userID = userID;
         insertRegistryThread.start();
         try {
             insertRegistryThread.join();
@@ -126,6 +132,41 @@ public class ConnectMySql {
         return this.wholeMusicSheetList;
     }
 
+    public List<SpecialMusic> getWholeMusicList() {
+        wholeMusicListThread.start();
+        try {
+            wholeMusicListThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return this.wholeMusicList;
+    }
+
+    public void insertComment(String commentID, String comment, String userID, String musicID, String ReplyTo) {
+        this.commentID = commentID;
+        this.comment = comment;
+        this.userID = userID;
+        this.musicID = musicID;
+        this.ReplyTo = ReplyTo;
+        insertCommentThread.start();
+        try {
+            insertCommentThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void insertMusic(String musicSheetName, String musicID) {
+        this.musicSheetName = musicSheetName;
+        this.musicID = musicID;
+        insertMusicThread.start();
+        try {
+            insertMusicThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public ConnectMySql() {
     }
 
@@ -144,11 +185,11 @@ public class ConnectMySql {
                     Statement statement = conn.createStatement();
                     String sql = "insert into registry values('" + regID + "', '" + regPassword + "')";
                     statement.execute(sql);
-                    System.out.println("Insert reg!!!!!");
+                    System.out.println("Insert reg!");
 
-                    sql = "insert into users values('" + musicSheetID + "', '" + musicSheetName + "', '" + musicSheetInfo + "', '" + userID +"')";
+                    sql = "insert into users values('" + userID + "', '" + userName + "', '" + userBirth + "', '', '" + userGender + "', '" + regID + "')";
                     statement.execute(sql);
-                    System.out.println("Insert!");
+                    System.out.println("Insert user!");
                     conn.close();
                     return;
                 } catch (SQLException e) {
@@ -217,7 +258,7 @@ public class ConnectMySql {
                     Connection conn = DriverManager.getConnection(url, user, password);
                     Statement statement = conn.createStatement();
                     String sql = "select RID, RPassword " +
-                            "FROM registry ";
+                            "FROM registry";
                     ResultSet rs = statement.executeQuery(sql);
                     String RID=null;
                     String RPassword=null;
@@ -257,7 +298,7 @@ public class ConnectMySql {
                     Statement statement = conn.createStatement();
                     String sql = "select AID, AName, p.PID, p.PName, APublishDate, m.MsnID, m.MsnName, imageID " +
                             "FROM album a, publisher p, musician m " +
-                            "WHERE a.MsnID = m.MsnID AND a.PID = p.PID ";
+                            "WHERE a.MsnID = m.MsnID AND a.PID = p.PID";
                     ResultSet rs = statement.executeQuery(sql);
                     String AID = null;
                     String AName = null;
@@ -305,7 +346,7 @@ public class ConnectMySql {
                     Statement statement = conn.createStatement();
                     String sql = "select MSName, MSInfo " +
                             "FROM musicsheet " +
-                            "WHERE UID="+userID+" and MSID="+musicSheetID;
+                            "WHERE UID='"+userID+"' and MSID='"+musicSheetID+"'";
                     ResultSet rs = statement.executeQuery(sql);
                     String musicSheetInfo = null;
                     String musicSheetName = null;
@@ -338,13 +379,13 @@ public class ConnectMySql {
                 try {
                     Connection conn = DriverManager.getConnection(url, user, password);
                     Statement statement = conn.createStatement();
-                    String sql1 = "delete FROM MS_include WHERE MSID="+musicSheetID;
+                    String sql1 = "delete FROM MS_include WHERE MSID='"+musicSheetID+"'";
                     String sql2 = "delete " +
                             "FROM musicsheet " +
-                            "WHERE UID="+userID+" and MSID="+musicSheetID;
+                            "WHERE UID="+"'"+userID+"' and MSID='"+musicSheetID+"'";
                     statement.execute(sql1);
                     statement.execute(sql2);
-                    System.out.println("Deleted!");
+                    System.out.println("Delete Musicsheet!");
                     conn.close();
                     return;
                 } catch (SQLException e) {
@@ -368,7 +409,7 @@ public class ConnectMySql {
                     Statement statement = conn.createStatement();
                     String sql = "insert into musicsheet values('"+musicSheetID+"', '"+musicSheetName+"', '"+musicSheetInfo+"', '"+userID+"')";
                     statement.execute(sql);
-                    System.out.println("Insert!");
+                    System.out.println("Insert Musicsheet!");
                     conn.close();
                     return;
                 } catch (SQLException e) {
@@ -411,7 +452,118 @@ public class ConnectMySql {
                             }
                         }
                     }
+                    sql = "select MSID, MscID from MS_include;";
+                    rs = statement.executeQuery(sql);
+                    String musicID = null;
+                    while (rs.next()) {
+                        msid = rs.getString("MSID");
+                        musicID = rs.getString("MscID");
+                        for(SpecialMusicList tmp:wholeMusicSheetList) {
+                            if(tmp.getMusicSheetID().equals(msid)) {
+                                tmp.addMusicInclude(musicID);
+                            }
+                        }
+                    }
+
                     rs.close();
+                    conn.close();
+                    return;
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    });
+
+    final Thread wholeMusicListThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            while (!Thread.interrupted()) {
+                try {
+                    Thread.sleep(100);
+                }
+                catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    Connection conn = DriverManager.getConnection(url, user, password);
+                    Statement statement = conn.createStatement();
+                    String sql = "select MscID, MscName, MsnName from music, musician where music.MsnID = musician.MsnID;";
+                    ResultSet rs = statement.executeQuery(sql);
+                    String MscID = null;
+                    String MscName = null;
+                    String MsnName = null;
+                    while(rs.next()) {
+                        MscID = rs.getString("MscID");
+                        MscName = rs.getString("MscName");
+                        MsnName = rs.getString("MsnName");
+                        wholeMusicList.add(new SpecialMusic(MscID, MscName, MsnName));
+                    }
+                    rs.close();
+                    conn.close();
+                    return;
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    });
+
+    final Thread insertCommentThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            while (!Thread.interrupted()) {
+                try {
+                    Thread.sleep(100);
+                }
+                catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    Connection conn = DriverManager.getConnection(url, user, password);
+                    Statement statement = conn.createStatement();
+                    String sql = null;
+                    if(ReplyTo == null) {
+                        sql = "insert into comments values('"+commentID+"', '"+comment+"', null, '"+musicID+"', '"+userID+"')";
+                    }
+                    else {
+                        sql = "insert into comments values('"+commentID+"', '"+comment+"', '"+ReplyTo+"', '"+musicID+"', '"+userID+"')";
+                    }
+                    statement.execute(sql);
+                    System.out.println("Insert Comment!");
+                    conn.close();
+                    return;
+                }
+                catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    });
+
+    final Thread insertMusicThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            while (!Thread.interrupted()) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    Connection conn = DriverManager.getConnection(url, user, password);
+                    Statement statement = conn.createStatement();
+                    String findSql = "select MSID FROM musicsheet where MSName='"+musicSheetName+"'";
+                    ResultSet rs = statement.executeQuery(findSql);
+                    String msid = null;
+                    while(rs.next()) {
+                        msid = rs.getString("MSID");
+                    }
+                    rs.close();
+                    String sql = "insert into MS_include values('"+musicID+"', '"+msid+"')";
+                    statement.execute(sql);
+                    System.out.println("Insert Music!");
                     conn.close();
                     return;
                 } catch (SQLException e) {

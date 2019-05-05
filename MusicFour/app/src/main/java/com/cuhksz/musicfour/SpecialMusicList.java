@@ -1,10 +1,14 @@
 package com.cuhksz.musicfour;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SpecialMusicList {
     private String musicSheetName;
     private String musicSheetID;
     private int countMusicNum;
+    private ArrayList<String> musicInclude = new ArrayList<>();
 
     public SpecialMusicList(String musicSheetID, String musicSheetName){
         this.musicSheetID = musicSheetID;
@@ -26,5 +30,13 @@ public class SpecialMusicList {
 
     public void setCountMusicNum(int countMusicNum) {
         this.countMusicNum = countMusicNum;
+    }
+
+    public ArrayList<String> getMusicInclude() {
+        return musicInclude;
+    }
+
+    public void addMusicInclude(String musicID) {
+        this.musicInclude.add(musicID);
     }
 }

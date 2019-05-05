@@ -7,6 +7,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class popupActivity extends AppCompatActivity {
@@ -57,8 +59,8 @@ public class popupActivity extends AppCompatActivity {
             switch (v.getId()) {
                 case R.id.save:
                     Date present = new Date();
-                    long s = present.getTime()/100000;
-                    String n = "MS" + Long.toString(s);
+                    SimpleDateFormat dateFormat= new SimpleDateFormat("yyyyMMddhhmmss");
+                    String n = "MS" + dateFormat.format(present);
                     String name = listName.getText().toString();
                     String content = description.getText().toString();
                     ConnectMySql conn = new ConnectMySql();

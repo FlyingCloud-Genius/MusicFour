@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,7 +33,7 @@ public class MusicCommentActivity extends AppCompatActivity {
         final CommentList commentList = new CommentList();
         commentList.buildCommentList();
 
-        CommentList musicCommentList = new CommentList();
+        final CommentList musicCommentList = new CommentList();
 
         ExpandableListView expandableListView = (ExpandableListView) findViewById(R.id.commentListView);
         final EditText commentToSend = (EditText) findViewById(R.id.commentToSend);
@@ -42,9 +43,7 @@ public class MusicCommentActivity extends AppCompatActivity {
 
         Log.i("4001:","start build new comments");
         for (Comment cmt:commentList.getCommentList()){
-            Log.i("4001:","in loops");
             if (cmt.getMusicID().equals(musicID)){
-                Log.i("4001:",cmt.getComment());
                 musicCommentList.addComment(cmt);
             }
         }
@@ -80,13 +79,14 @@ public class MusicCommentActivity extends AppCompatActivity {
                 String comment_to_send = (String) commentToSend.getText().toString();
                 if (!TextUtils.isEmpty(comment_to_send)) {
                     Date present = new Date();
-                    long s = present.getTime()/100000;
-                    String n="C"+Long.toString(s);
-                    List<Reply> emptyReply = new ArrayList<>();
-                    Comment comment = new Comment("英国佬", comment_to_send, n, "1", null, emptyReply);
-                    commentList.addComment(comment);
+                    SimpleDateFormat dateFormat= new SimpleDateFormat("yyyyMMddhhmmss");
+                    String commentID = "C" + dateFormat.format(present);
+                    ConnectMySql dataBase = new ConnectMySql();
+                    dataBase.insertComment(commentID, comment_to_send, userID, musicID, null);
                     Toast.makeText(MusicCommentActivity.this,"发送成功", Toast.LENGTH_SHORT).show();
                     commentToSend.getText().clear();
+                    commentList.buildCommentList();
+                    musicCommentList.addComment(commentList.getCommentList().get(commentList.getCommentList().size()-1));
                     adapter.notifyDataSetChanged();
                 }else{
                     Toast.makeText(MusicCommentActivity.this,"评论内容为空", Toast.LENGTH_SHORT).show();
