@@ -39,6 +39,8 @@ public class CommentList {
         this.commentList.add(comment);
     }
 
+    public void clear(){this.commentList.clear();}
+
     public int size(){
         return this.commentList.size();
     }
