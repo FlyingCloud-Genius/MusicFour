@@ -62,7 +62,9 @@ public class MusicOperation extends ListActivity {
             startActivity(info_intent);
         }    //go to the music information interface
 
-        if (position == 5){}    //add the music into music sheet
+        if (position == 5){
+
+        }    //add the music into music sheet
 
         if (position == 6){}    //remove the music from music sheet
 
