@@ -60,6 +60,7 @@ public class MusicListActivity extends AppCompatActivity {
                 Intent intent = new Intent(MusicListActivity.this, MusicActivity.class);
                 intent.putExtra(USERID, userID);
                 intent.putExtra(MUSICID, (String) Music.getMusics().get(i).get("musicID"));
+                intent.putExtra("musicListID", musicListID);
                 startActivity(intent);
             }
         });
