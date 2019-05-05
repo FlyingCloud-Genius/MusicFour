@@ -20,10 +20,13 @@ public class Download {
     private String user = "root";
     private String password = "123456";
     private String musicID;
+    private String musicPath;
+    private String photoPath;
 
-
-    public void downloadMp3(String musicFakeID) {
+    public void downloadMp3(String musicFakeID, String musicPath, String photoPath) {
         this.musicID = musicFakeID;
+        this.musicPath = musicPath;
+        this.photoPath = photoPath;
         downloadMusicThread.start();
         try {
             downloadMusicThread.join();
@@ -43,15 +46,18 @@ public class Download {
                 }
                 try {
                     Connection conn = DriverManager.getConnection(url, user, password);
-                    File dir = new File("D:\\MusicFour\\");
+                    File dir = new File(musicPath);
                     Statement statement = conn.createStatement();
-                    String findSql = "select MscName, MscFile from music where MscID ='"+musicID+"'";
+                    String findSql = "select MscName, MscCover, MscFile from music where MscID ='"+musicID+"'";
                     ResultSet rs = statement.executeQuery(findSql);
                     while(rs.next()) {
-                        Blob blob = rs.getBlob("MscFile");
                         String MscName = rs.getString("MscName");
-                        InputStream in = blob.getBinaryStream();
-                        File file = new File(dir, MscName);
+                        System.out.println("Searched! Start to download..."+MscName);
+                        Blob mp3 = rs.getBlob("MscFile");
+                        Blob cover = rs.getBlob("MscCover");
+
+                        InputStream in = mp3.getBinaryStream();
+                        File file = new File(dir, MscName+".mp3");
                         try {
                             file.createNewFile();
                         } catch (IOException e) {
@@ -71,7 +77,31 @@ public class Download {
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
-                        System.out.println("Succuessful Download! " + MscName);
+                        System.out.println("Succuessful Download! " + MscName+".mp3");
+
+                        dir = new File(photoPath);
+                        in = cover.getBinaryStream();
+                        file = new File(dir, MscName+".jpg");
+                        try {
+                            file.createNewFile();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        fout = null;
+                        try {
+                            fout = new FileOutputStream(file);
+                        } catch (FileNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        b = -1;
+                        try {
+                            while((b=in.read())!=-1){
+                                fout.write(b);
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        System.out.println("Succuessful Download! " + MscName+".jpg");
                     }
                     rs.close();
                     conn.close();
@@ -82,10 +112,4 @@ public class Download {
             }
         }
     });
-
-    public static void main(String[] args) {
-        Download connector = new Download();
-        String musicFakeID = "M36345";
-        connector.downloadMp3(musicFakeID);
-    }
 }
