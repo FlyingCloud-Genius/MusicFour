@@ -81,7 +81,7 @@ public class MusicService extends Service {
         public void onCompletion(MediaPlayer mp) {
             stop();
             if (playingModule == "random") {
-                MusicActivity.currentSongIndex = new Random().nextInt(MusicActivity.musics.length);
+                MusicActivity.currentSongIndex = new Random().nextInt(MusicActivity.musics.size());
             } // randomly play
             else if (playingModule == "same") {
 
@@ -89,7 +89,7 @@ public class MusicService extends Service {
             else //play the next song again
             {
                 MusicActivity.currentSongIndex += 1;
-                if (MusicActivity.currentSongIndex == MusicActivity.musics.length) {
+                if (MusicActivity.currentSongIndex == MusicActivity.musics.size()) {
                     MusicActivity.currentSongIndex = 0;
                 }
             }
