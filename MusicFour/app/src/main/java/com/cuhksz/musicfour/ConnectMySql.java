@@ -565,10 +565,21 @@ public class ConnectMySql {
                     while(rs.next()) {
                         msid = rs.getString("MSID");
                     }
+                    findSql = "select MscID, MSID from MS_include where MscID='"+musicID+"' and MSID='"+msid+"';";
+                    rs = statement.executeQuery(findSql);
+                    int rowCount = 0;
+                    while(rs.next()) {
+                        rowCount++;
+                    }
                     rs.close();
-                    String sql = "insert into MS_include values('"+musicID+"', '"+msid+"')";
-                    statement.execute(sql);
-                    System.out.println("Insert Music!");
+                    if(rowCount==0) {
+                        String sql = "insert into MS_include values('"+musicID+"', '"+msid+"')";
+                        statement.execute(sql);
+                        System.out.println("Insert Music!");
+                    }
+                    else {
+                        System.out.println("Music already exists!");
+                    }
                     conn.close();
                     return;
                 } catch (SQLException e) {
