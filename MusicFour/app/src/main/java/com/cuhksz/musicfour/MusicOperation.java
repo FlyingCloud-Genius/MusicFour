@@ -56,7 +56,12 @@ public class MusicOperation extends ListActivity {
         super.onListItemClick(l, v, position, id);
         if (position == 0){}    //mark the music as like
 
-        if (position == 1){}    //go to the comment interface
+        if (position == 1){
+            Intent intent = new Intent(MusicOperation.this, MusicCommentActivity.class);
+            intent.putExtra("userID", userID);
+            intent.putExtra("musicID", musicID);
+            startActivity(intent);
+        }    //go to the comment interface
 
         if (position == 2){}    //go to the download interface
 
