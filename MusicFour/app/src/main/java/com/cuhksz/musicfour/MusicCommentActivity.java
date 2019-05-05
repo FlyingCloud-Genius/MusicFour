@@ -87,6 +87,7 @@ public class MusicCommentActivity extends AppCompatActivity {
                     dataBase.insertComment(commentID, comment_to_send, userID, musicID, null);
                     Toast.makeText(MusicCommentActivity.this,"发送成功", Toast.LENGTH_SHORT).show();
                     commentToSend.getText().clear();
+
                     adapter.notifyDataSetChanged();
                 }else{
                     Toast.makeText(MusicCommentActivity.this,"评论内容为空", Toast.LENGTH_SHORT).show();
