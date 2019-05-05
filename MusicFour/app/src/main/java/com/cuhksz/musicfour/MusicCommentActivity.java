@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -40,15 +41,15 @@ public class MusicCommentActivity extends AppCompatActivity {
 
         expandableListView.setGroupIndicator(null);
 
-        Log.i("4001:","start build new comments");
         for (Comment cmt:commentList.getCommentList()){
             Log.i("4001:","in loops");
+            System.out.println(musicID);
+            System.out.println(cmt.getMusicID());
             if (cmt.getMusicID().equals(musicID)){
                 Log.i("4001:",cmt.getComment());
                 musicCommentList.addComment(cmt);
             }
         }
-        Log.i("4001:","finish build new comments");
 
 
         final CommentAdapter adapter = new CommentAdapter(this, musicCommentList);
@@ -80,11 +81,10 @@ public class MusicCommentActivity extends AppCompatActivity {
                 String comment_to_send = (String) commentToSend.getText().toString();
                 if (!TextUtils.isEmpty(comment_to_send)) {
                     Date present = new Date();
-                    long s = present.getTime()/100000;
-                    String n="C"+Long.toString(s);
-                    List<Reply> emptyReply = new ArrayList<>();
-                    Comment comment = new Comment("英国佬", comment_to_send, n, "1", null, emptyReply);
-                    commentList.addComment(comment);
+                    SimpleDateFormat dateFormat= new SimpleDateFormat("yyyyMMddhhmmss");
+                    String commentID = "C" + dateFormat.format(present);
+                    ConnectMySql dataBase = new ConnectMySql();
+                    dataBase.insertComment(commentID, comment_to_send, userID, musicID, null);
                     Toast.makeText(MusicCommentActivity.this,"发送成功", Toast.LENGTH_SHORT).show();
                     commentToSend.getText().clear();
                     
