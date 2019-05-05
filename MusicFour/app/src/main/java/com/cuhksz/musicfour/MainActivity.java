@@ -15,6 +15,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -201,6 +202,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, MusicActivity.class);
+                ConnectMySql dataBase = new ConnectMySql();
+                List<SpecialMusicList> tmpList = dataBase.getWholeMusicSheetList(userID);
+                for (int i=0; i<tmpList.size(); i++){
+                    if(!tmpList.get(i).equals(null)){
+                        for (int j=0; j<tmpList.get(i).getMusicInclude().size(); j++){
+                            if (!tmpList.get(i).getMusicInclude().get(j).equals(null)){
+                                Log.i("4001: sheetID: ",tmpList.get(i).getMusicSheetID());
+                                intent.putExtra("musicListID", tmpList.get(i).getMusicSheetID());
+                                intent.putExtra("musicID", tmpList.get(i).getMusicInclude().get(j));
+                                break;
+                            }
+                        }
+                        break;
+                    }
+                }
                 intent.putExtra("userID", userID);
                 startActivity(intent);
             }
