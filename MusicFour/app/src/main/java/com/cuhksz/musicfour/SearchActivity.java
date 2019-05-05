@@ -10,6 +10,8 @@ import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.SimpleAdapter;
 
+import java.util.Map;
+
 public class SearchActivity extends AppCompatActivity {
     private static final String MUSICID = "musicID";
     private static final String USERID = "userID";
@@ -35,9 +37,10 @@ public class SearchActivity extends AppCompatActivity {
         searchResult.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Map<String, Object> map = (Map<String, Object>) searchResult.getItemAtPosition(i);
                 Intent intent = new Intent(SearchActivity.this, MusicActivity.class);
                 intent.putExtra(USERID,userID);
-                intent.putExtra(MUSICID, (String) Music.getMusics().get(i).get("musicID"));
+                intent.putExtra(MUSICID, (String) map.get("musicID"));
                 startActivity(intent);
             }
         });
@@ -45,9 +48,10 @@ public class SearchActivity extends AppCompatActivity {
         searchResult.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Map<String, Object> map = (Map<String, Object>) searchResult.getItemAtPosition(i);
                 Intent intent = new Intent(SearchActivity.this, MusicOperation.class);
                 intent.putExtra(USERID,userID);
-                intent.putExtra(MUSICID, (String) Music.getMusics().get(i).get("musicID"));
+                intent.putExtra(MUSICID, (String) map.get("musicID"));
                 startActivity(intent);
                 return true;
             }
