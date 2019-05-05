@@ -36,9 +36,9 @@ public class MusicOperation extends ListActivity {
         }
 
         if (musicListID != null){
-            operationList = new String[]{"Like", "Comment", "Download", "Share", "Music information", "Add to music sheet", "Remove from music sheet"};
+            operationList = new String[]{"Like", "Comment", "Download", "Share", "Music information", "Add to music list", "Remove from music list"};
         }else{
-            operationList = new String[]{"Like", "Comment", "Download", "Share", "Music information", "Add to music sheet"};
+            operationList = new String[]{"Like", "Comment", "Download", "Share", "Music information", "Add to music list"};
         }
 
         ArrayAdapter<String> musicOperationAdapter = new ArrayAdapter<String>(
@@ -66,11 +66,12 @@ public class MusicOperation extends ListActivity {
         if (position == 2){}    //go to the download interface
 
         if (position == 3){
+            String str = (String)music.get("music") + ". This music is great! Come and join us.";
             Intent share_intent = new Intent();
             share_intent.setAction(Intent.ACTION_SEND);
             share_intent.setType("text/plain");
             share_intent.putExtra(Intent.EXTRA_SUBJECT, "好歌推荐： ");
-            share_intent.putExtra(Intent.EXTRA_TEXT, (String)music.get("music"));
+            share_intent.putExtra(Intent.EXTRA_TEXT, str);
             share_intent = Intent.createChooser(share_intent, "分享");
             startActivity(share_intent);
         }    //go to the share interface
