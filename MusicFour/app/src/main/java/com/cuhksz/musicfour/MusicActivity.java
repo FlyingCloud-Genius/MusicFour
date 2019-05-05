@@ -19,7 +19,9 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class MusicActivity extends Activity {
@@ -36,6 +38,7 @@ public class MusicActivity extends Activity {
     public static final String musicPath = "/sdcard/Music/";
     public static final String photoPath = "/sdcard/Pictures/";
     public static List<String> musics;// get the play music list
+    public static List<String> musicIDs;
     public static List<String> localMusics;
     public static int currentSongIndex = 0;
     public String playingModule; // next same random
@@ -51,16 +54,10 @@ public class MusicActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_music);
 
-        userID = (String) getIntent().getExtras().get(USERID);
-        musicID = (String) getIntent().getExtras().get("musicID");
-        musicListID = (String) getIntent().getExtras().get("musicListID");
-        musics = getMusicName(musicListID);
-        localMusics = GetFiles.getAllFileName(musicPath,"mp3");
-
         //asking for authority
         if (Build.VERSION.SDK_INT >= 23) {
             int REQUEST_CODE_CONTACT = 101;
-            String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE};
+            String[] permissions = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
             //check the permission
             for (String str : permissions) {
                 if (this.checkSelfPermission(str) != PackageManager.PERMISSION_GRANTED) {
@@ -70,6 +67,18 @@ public class MusicActivity extends Activity {
             }
         }
 
+        userID = (String) getIntent().getExtras().get(USERID);
+        musicID = (String) getIntent().getExtras().get("musicID");
+        musicListID = (String) getIntent().getExtras().get("musicListID");
+        musics = getMusicNames(musicListID);
+        musicIDs = getMusicIDs(musicListID);
+        localMusics = GetFiles.getAllFileName(musicPath,"mp3");
+        for (int i = 0; i < musicIDs.size(); i++) {
+            if (!localMusics.contains(musics.get(i))) {
+                Download download = new Download();
+                download.downloadMp3(musicIDs.get(i), musicPath, photoPath);
+            }
+        }
 
         currentTime = (TextView) findViewById(R.id.current_time);
         totalTime = (TextView) findViewById(R.id.total_time);
@@ -285,16 +294,30 @@ public class MusicActivity extends Activity {
         return null;
     }
 
-    public List<String> getMusicName(String listID) {
+    public List<String> getMusicIDs (String listID) {
+        SpecialMusicList musicList = getMusicList(listID);
+        List<String> musicIDs = musicList.getMusicInclude();
+        return musicIDs;
+    }
+
+    public List<String> getMusicNames(String listID) {
         ConnectMySql dataBase = new ConnectMySql();
         List<SpecialMusic> tmpList = dataBase.getWholeMusicList();
-
+        List<String> IDs = new ArrayList<>();
+        List<String> names = new ArrayList<>();
+        for (SpecialMusic i : tmpList) {
+            IDs.add(i.getMusicID());
+        }
+        for (SpecialMusic i : tmpList) {
+            names.add(i.getMusicName());
+        }
         SpecialMusicList musicList = getMusicList(listID);
         List<String> musicIDs = musicList.getMusicInclude();
         List<String> musicNames = new ArrayList<>();
-        for (String i : musicIDs) {
-            String musicName = tmpList.get(tmpList.indexOf(i)).getMusicName();
-            musicNames.add(musicName);
+        for (int i = 0; i < IDs.size(); i++) {
+            if (musicIDs.contains(IDs.get(i))) {
+                musicNames.add(names.get(i));
+            }
         }
         return musicNames;
     }
