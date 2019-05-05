@@ -60,17 +60,8 @@ public class MySQLConnector {
             e.printStackTrace();
         }
         try{
-//            FileInputStream file = new FileInputStream(localFIle);
-//            PreparedStatement ps = con.prepareStatement("insert into music values(?,?,?,?,?,?)");
-//            ps.setString(1,"blob");
-//            ps.setString(2,"Alive");
-//            ps.setString(3, "adf");
-//            ps.setString(4, "adf");
-//            ps.setBinaryStream(5, file, file.available());
-//            ps.setString(6,"1");
-//            ps.executeUpdate();
             Statement stmt = con.createStatement();
-            ResultSet rs = stmt.executeQuery("select MscFile from music where MscID = 'blob'");
+            ResultSet rs = stmt.executeQuery("select MscFile from music where MscID = ?");
             while(rs.next()){
                 Blob blob = rs.getBlob(1);
                 InputStream in = blob.getBinaryStream();
