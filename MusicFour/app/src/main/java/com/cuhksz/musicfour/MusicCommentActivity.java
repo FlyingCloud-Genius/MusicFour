@@ -41,11 +41,13 @@ public class MusicCommentActivity extends AppCompatActivity {
 
         expandableListView.setGroupIndicator(null);
 
+        Log.i("4001:","start build new comments");
         for (Comment cmt:commentList.getCommentList()){
             if (cmt.getMusicID().equals(musicID)){
                 musicCommentList.addComment(cmt);
             }
         }
+        Log.i("4001:","finish build new comments");
 
 
         final CommentAdapter adapter = new CommentAdapter(this, musicCommentList);

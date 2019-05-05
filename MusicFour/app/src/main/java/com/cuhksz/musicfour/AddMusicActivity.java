@@ -50,6 +50,8 @@ public class AddMusicActivity extends ListActivity {
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
+        ConnectMySql dataBase = new ConnectMySql();
+        dataBase.insertMusic(targetList[position], musicID);
         finish();
     }
 }

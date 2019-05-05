@@ -156,6 +156,17 @@ public class ConnectMySql {
         }
     }
 
+    public void insertMusic(String musicSheetName, String musicID) {
+        this.musicSheetName = musicSheetName;
+        this.musicID = musicID;
+        insertMusicThread.start();
+        try {
+            insertMusicThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
     public ConnectMySql() {
     }
 
@@ -174,11 +185,11 @@ public class ConnectMySql {
                     Statement statement = conn.createStatement();
                     String sql = "insert into registry values('" + regID + "', '" + regPassword + "')";
                     statement.execute(sql);
-                    System.out.println("Insert reg!!!!!");
+                    System.out.println("Insert reg!");
 
                     sql = "insert into users values('" + userID + "', '" + userName + "', '" + userBirth + "', '', '" + userGender + "', '" + regID + "')";
                     statement.execute(sql);
-                    System.out.println("Insert user!!!!!!");
+                    System.out.println("Insert user!");
                     conn.close();
                     return;
                 } catch (SQLException e) {
@@ -247,7 +258,7 @@ public class ConnectMySql {
                     Connection conn = DriverManager.getConnection(url, user, password);
                     Statement statement = conn.createStatement();
                     String sql = "select RID, RPassword " +
-                            "FROM registry ";
+                            "FROM registry";
                     ResultSet rs = statement.executeQuery(sql);
                     String RID=null;
                     String RPassword=null;
@@ -287,7 +298,7 @@ public class ConnectMySql {
                     Statement statement = conn.createStatement();
                     String sql = "select AID, AName, p.PID, p.PName, APublishDate, m.MsnID, m.MsnName, imageID " +
                             "FROM album a, publisher p, musician m " +
-                            "WHERE a.MsnID = m.MsnID AND a.PID = p.PID ";
+                            "WHERE a.MsnID = m.MsnID AND a.PID = p.PID";
                     ResultSet rs = statement.executeQuery(sql);
                     String AID = null;
                     String AName = null;
@@ -335,7 +346,7 @@ public class ConnectMySql {
                     Statement statement = conn.createStatement();
                     String sql = "select MSName, MSInfo " +
                             "FROM musicsheet " +
-                            "WHERE UID="+userID+" and MSID="+musicSheetID;
+                            "WHERE UID='"+userID+"' and MSID='"+musicSheetID+"'";
                     ResultSet rs = statement.executeQuery(sql);
                     String musicSheetInfo = null;
                     String musicSheetName = null;
@@ -374,7 +385,7 @@ public class ConnectMySql {
                             "WHERE UID="+"'"+userID+"' and MSID='"+musicSheetID+"'";
                     statement.execute(sql1);
                     statement.execute(sql2);
-                    System.out.println("Deleted!");
+                    System.out.println("Delete Musicsheet!");
                     conn.close();
                     return;
                 } catch (SQLException e) {
@@ -398,7 +409,7 @@ public class ConnectMySql {
                     Statement statement = conn.createStatement();
                     String sql = "insert into musicsheet values('"+musicSheetID+"', '"+musicSheetName+"', '"+musicSheetInfo+"', '"+userID+"')";
                     statement.execute(sql);
-                    System.out.println("Insert!");
+                    System.out.println("Insert Musicsheet!");
                     conn.close();
                     return;
                 } catch (SQLException e) {
@@ -520,11 +531,42 @@ public class ConnectMySql {
                         sql = "insert into comments values('"+commentID+"', '"+comment+"', '"+ReplyTo+"', '"+musicID+"', '"+userID+"')";
                     }
                     statement.execute(sql);
-                    System.out.println("Insert!");
+                    System.out.println("Insert Comment!");
                     conn.close();
                     return;
                 }
                 catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    });
+
+    final Thread insertMusicThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            while (!Thread.interrupted()) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    Connection conn = DriverManager.getConnection(url, user, password);
+                    Statement statement = conn.createStatement();
+                    String findSql = "select MSID FROM musicsheet where MSName='"+musicSheetName+"'";
+                    ResultSet rs = statement.executeQuery(findSql);
+                    String msid = null;
+                    while(rs.next()) {
+                        msid = rs.getString("MSID");
+                    }
+                    rs.close();
+                    String sql = "insert into MS_include values('"+musicID+"', '"+msid+"')";
+                    statement.execute(sql);
+                    System.out.println("Insert Music!");
+                    conn.close();
+                    return;
+                } catch (SQLException e) {
                     e.printStackTrace();
                 }
             }
