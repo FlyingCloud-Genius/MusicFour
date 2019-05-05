@@ -31,7 +31,7 @@ public class MusicListActivity extends AppCompatActivity {
 
         userID = (String) getIntent().getExtras().get(USERID);
         musicsID = getIntent().getStringArrayListExtra("musicsID");
-        musicListID = (String) getIntent().getExtras().get("MUSICLISTID");
+        musicListID = (String) getIntent().getExtras().get(MUSICLISTID);
 
         for (String s:musicsID){
             Log.i("4001: musicsID: ", s);
