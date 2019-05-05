@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -32,10 +33,9 @@ public class MusicActivity extends Activity {
     private static Button play;
     private static Button pauseplay;
     private static Button module;
-    public static String[] musics = {"/sdcard/Music/胡歌 - 忘记时间.mp3",
-            "/sdcard/Music/7AND5 - Remember.mp3",
-            "/sdcard/Music/Coldplay - Viva La Vida.mp3",
-            "/sdcard/Music/Fall Out Boy - Immortals.mp3"};
+    public static final String musicPath = "/sdcard/Music/";
+    public static final String photoPath = "/sdcard/Pictures/";
+    public static ArrayList<String> musics;// get the play music list
     public static int currentSongIndex = 0;
     public String playingModule; // next same random
 
@@ -160,7 +160,7 @@ public class MusicActivity extends Activity {
                     pausePlay();
                     break;
                 case R.id.start:
-                    mi.play(musics[currentSongIndex], playingModule);
+                    mi.play(musics.get(currentSongIndex), playingModule);
                     break;
                 case R.id.module:
                     if (module.getText() == "next") {
@@ -192,11 +192,11 @@ public class MusicActivity extends Activity {
         } else {
             currentSongIndex -= 1;
             if (currentSongIndex == -1) {
-                currentSongIndex = musics.length - 1;
+                currentSongIndex = musics.size() - 1;
             }
         }
         mi.stop();
-        mi.play(musics[currentSongIndex], playingModule);
+        mi.play(musics.get(currentSongIndex), playingModule);
     }
 
     public void nextSong(View view) {
@@ -212,20 +212,20 @@ public class MusicActivity extends Activity {
             }
         }
         mi.stop();
-        mi.play(musics[currentSongIndex], playingModule);
+        mi.play(musics.get(currentSongIndex), playingModule);
     }
 
     //get the next playing song index
     private void nextIndex() {
         currentSongIndex += 1;
-        if (currentSongIndex == musics.length) {
+        if (currentSongIndex == musics.size()) {
             currentSongIndex = 0;
         }
     }
 
     //get the index of the next playing song index
     public void randomIndex() {
-        currentSongIndex = new Random().nextInt(musics.length);
+        currentSongIndex = new Random().nextInt(musics.size());
     }
 
     public void exit(View view) {
@@ -236,7 +236,6 @@ public class MusicActivity extends Activity {
         super.onDestroy();
         unbindService(conn);
     }
-
 
     class MyServiceConn implements ServiceConnection {
         @Override
@@ -252,7 +251,7 @@ public class MusicActivity extends Activity {
     }
 
     public static String currentSong() {
-        return musics[currentSongIndex];
+        return musics.get(currentSongIndex);
     }
 
 //    public void onClickToMusicList(View view) {
