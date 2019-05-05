@@ -35,14 +35,15 @@ public class MusicActivity extends Activity {
     private static Button module;
     public static final String musicPath = "/sdcard/Music/";
     public static final String photoPath = "/sdcard/Pictures/";
-    public static ArrayList<String> musics;// get the play music list
+    public static List<String> musics;// get the play music list
+    public static List<String> localMusics;
     public static int currentSongIndex = 0;
     public String playingModule; // next same random
 
     private static final String USERID = "userID";
     private String userID;
     private String musicID;
-//    private String musicListID;
+    private String musicListID;
 
 
     @Override
@@ -52,8 +53,9 @@ public class MusicActivity extends Activity {
 
         userID = (String) getIntent().getExtras().get(USERID);
         musicID = (String) getIntent().getExtras().get("musicID");
-//        musicListID = (String) getIntent().getExtras().get("musicListID");
-//        Log.i("4001: musicListID", musicListID);
+        musicListID = (String) getIntent().getExtras().get("musicListID");
+        musics = getMusicName(musicListID);
+        localMusics = GetFiles.getAllFileName(musicPath,"mp3");
 
         //asking for authority
         if (Build.VERSION.SDK_INT >= 23) {
@@ -107,6 +109,8 @@ public class MusicActivity extends Activity {
                 mi.seekTo(progress);
             }
         });
+
+
     }
 
     public static Handler handler = new Handler() {
@@ -269,6 +273,31 @@ public class MusicActivity extends Activity {
 //        intentToMusicList.putExtra(USERID,userID);
 //        startActivity(intentToMusicList);
 //    }
+
+    public SpecialMusicList getMusicList(String musicListID){
+        ConnectMySql dataBase = new ConnectMySql();
+        List<SpecialMusicList> tmpList = dataBase.getWholeMusicSheetList(userID);
+        for (SpecialMusicList i : tmpList) {
+            if (i.getMusicSheetID().equals(musicListID)) {
+                return i;
+            }
+        }
+        return null;
+    }
+
+    public List<String> getMusicName(String listID) {
+        ConnectMySql dataBase = new ConnectMySql();
+        List<SpecialMusic> tmpList = dataBase.getWholeMusicList();
+
+        SpecialMusicList musicList = getMusicList(listID);
+        List<String> musicIDs = musicList.getMusicInclude();
+        List<String> musicNames = new ArrayList<>();
+        for (String i : musicIDs) {
+            String musicName = tmpList.get(tmpList.indexOf(i)).getMusicName();
+            musicNames.add(musicName);
+        }
+        return musicNames;
+    }
 
     public void onClickToComment(View view) {
         Intent intentToComment = new Intent(MusicActivity.this, MusicCommentActivity.class);
