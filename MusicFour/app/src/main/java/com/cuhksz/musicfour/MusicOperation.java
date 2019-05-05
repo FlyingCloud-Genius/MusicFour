@@ -88,6 +88,9 @@ public class MusicOperation extends ListActivity {
             System.out.println(musicID);
             System.out.println(musicListID);
             database.deleteMusic(musicID, musicListID);
+            Intent intent = new Intent(MusicOperation.this, MainActivity.class);
+            intent.putExtra("userID", userID);
+            startActivity(intent);
         }  //remove the music from music sheet
 
     }

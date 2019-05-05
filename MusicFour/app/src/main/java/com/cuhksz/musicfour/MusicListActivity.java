@@ -71,6 +71,7 @@ public class MusicListActivity extends AppCompatActivity {
                 intent.putExtra(USERID, userID);
                 intent.putExtra(MUSICLISTID, musicListID);
                 intent.putExtra(MUSICID, targetMusics.get(i).get("musicID").toString());
+                Log.i("4001: start2: ",targetMusics.get(i).get("musicID").toString());
                 System.out.println(targetMusics.get(i).get("musicID"));
                 startActivity(intent);
                 return true;
