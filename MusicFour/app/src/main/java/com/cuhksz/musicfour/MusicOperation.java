@@ -84,7 +84,10 @@ public class MusicOperation extends ListActivity {
         }   //add the music into music sheet
 
         if (position == 6){
-
+            ConnectMySql database = new ConnectMySql();
+            System.out.println(musicID);
+            System.out.println(musicListID);
+            database.deleteMusic(musicID, musicListID);
         }  //remove the music from music sheet
 
     }
