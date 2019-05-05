@@ -41,15 +41,15 @@ public class MusicCommentActivity extends AppCompatActivity {
 
         expandableListView.setGroupIndicator(null);
 
+        Log.i("4001:","start build new comments");
         for (Comment cmt:commentList.getCommentList()){
             Log.i("4001:","in loops");
-            System.out.println(musicID);
-            System.out.println(cmt.getMusicID());
             if (cmt.getMusicID().equals(musicID)){
                 Log.i("4001:",cmt.getComment());
                 musicCommentList.addComment(cmt);
             }
         }
+        Log.i("4001:","finish build new comments");
 
 
         final CommentAdapter adapter = new CommentAdapter(this, musicCommentList);
@@ -87,7 +87,6 @@ public class MusicCommentActivity extends AppCompatActivity {
                     dataBase.insertComment(commentID, comment_to_send, userID, musicID, null);
                     Toast.makeText(MusicCommentActivity.this,"发送成功", Toast.LENGTH_SHORT).show();
                     commentToSend.getText().clear();
-
                     adapter.notifyDataSetChanged();
                 }else{
                     Toast.makeText(MusicCommentActivity.this,"评论内容为空", Toast.LENGTH_SHORT).show();
