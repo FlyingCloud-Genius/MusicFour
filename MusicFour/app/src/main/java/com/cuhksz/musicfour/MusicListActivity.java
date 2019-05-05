@@ -31,7 +31,7 @@ public class MusicListActivity extends AppCompatActivity {
 
         userID = (String) getIntent().getExtras().get(USERID);
         musicsID = getIntent().getStringArrayListExtra("musicsID");
-        musicListID = (String) getIntent().getExtras().get("MUSICLISTID");
+        musicListID = (String) getIntent().getExtras().get(MUSICLISTID);
 
         for (String s:musicsID){
             Log.i("4001: musicsID: ", s);
@@ -70,8 +70,8 @@ public class MusicListActivity extends AppCompatActivity {
                 Intent intent = new Intent(MusicListActivity.this, MusicOperation.class);
                 intent.putExtra(USERID, userID);
                 intent.putExtra(MUSICLISTID, musicListID);
-                intent.putExtra(MUSICID, Music.getMusics().get(i).get("musicID").toString());
-                System.out.println(Music.getMusics().get(i).get("musicID"));
+                intent.putExtra(MUSICID, targetMusics.get(i).get("musicID").toString());
+                System.out.println(targetMusics.get(i).get("musicID"));
                 startActivity(intent);
                 return true;
             }

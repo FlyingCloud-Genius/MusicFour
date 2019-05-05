@@ -60,7 +60,7 @@ public class popupActivity extends AppCompatActivity {
                 case R.id.save:
                     Date present = new Date();
                     SimpleDateFormat dateFormat= new SimpleDateFormat("yyyyMMddhhmmss");
-                    String n = "MS" + dateFormat.format(present);
+                    String n = "S" + dateFormat.format(present);
                     String name = listName.getText().toString();
                     String content = description.getText().toString();
                     ConnectMySql conn = new ConnectMySql();

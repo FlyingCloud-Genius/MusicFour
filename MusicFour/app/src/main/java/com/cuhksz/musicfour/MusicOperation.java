@@ -4,6 +4,7 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -83,7 +84,10 @@ public class MusicOperation extends ListActivity {
         }   //add the music into music sheet
 
         if (position == 6){
-
+            ConnectMySql database = new ConnectMySql();
+            System.out.println(musicID);
+            System.out.println(musicListID);
+            database.deleteMusic(musicID, musicListID);
         }  //remove the music from music sheet
 
     }

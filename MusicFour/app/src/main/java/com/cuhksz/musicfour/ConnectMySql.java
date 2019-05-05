@@ -167,6 +167,13 @@ public class ConnectMySql {
         }
     }
 
+    public void deleteMusic(String musicID, String musicSheetID) {
+        this.musicID = musicID;
+        this.musicSheetID = musicSheetID;
+        deleteMusicThread.start();
+
+    }
+
     public ConnectMySql() {
     }
 
@@ -572,4 +579,29 @@ public class ConnectMySql {
             }
         }
     });
+
+    final Thread deleteMusicThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            while (!Thread.interrupted()) {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    Connection conn = DriverManager.getConnection(url, user, password);
+                    Statement statement = conn.createStatement();
+                    String sql = "delete FROM MS_include WHERE MSID='"+musicSheetID+"' and  MscID='"+musicID+"'";
+                    statement.execute(sql);
+                    System.out.println("Delete Music!");
+                    conn.close();
+                    return;
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    });
+
 }
