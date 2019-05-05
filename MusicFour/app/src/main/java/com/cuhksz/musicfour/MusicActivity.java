@@ -35,9 +35,10 @@ public class MusicActivity extends Activity {
     private static Button play;
     private static Button pauseplay;
     private static Button module;
-    public static final String musicPath = "/sdcard/Music/";
-    public static final String photoPath = "/sdcard/Pictures/";
+    public static final String musicPath = "/mnt/sdcard/Music/";
+    public static final String photoPath = "/mnt/sdcard/Pictures/";
     public static List<String> musics;// get the play music list
+    public static List<String> playList;
     public static List<String> musicIDs;
     public static List<String> localMusics;
     public static int currentSongIndex = 0;
@@ -73,11 +74,18 @@ public class MusicActivity extends Activity {
         musics = getMusicNames(musicListID);
         musicIDs = getMusicIDs(musicListID);
         localMusics = GetFiles.getAllFileName(musicPath,"mp3");
+        for (int i = 0; i < localMusics.size(); i++) {
+            localMusics.set(i, localMusics.get(i).substring(0, localMusics.get(i).indexOf(".")));
+        }
         for (int i = 0; i < musicIDs.size(); i++) {
             if (!localMusics.contains(musics.get(i))) {
                 Download download = new Download();
                 download.downloadMp3(musicIDs.get(i), musicPath, photoPath);
             }
+        }
+        playList = new ArrayList<>();
+        for (String i : musics) {
+            playList.add(musicPath + i + ".mp3");
         }
 
         currentTime = (TextView) findViewById(R.id.current_time);
@@ -173,7 +181,7 @@ public class MusicActivity extends Activity {
                     pausePlay();
                     break;
                 case R.id.start:
-                    mi.play(musics.get(currentSongIndex), playingModule);
+                    mi.play(playList.get(currentSongIndex), playingModule);
                     break;
                 case R.id.module:
                     if (module.getText() == "next") {
@@ -205,11 +213,11 @@ public class MusicActivity extends Activity {
         } else {
             currentSongIndex -= 1;
             if (currentSongIndex == -1) {
-                currentSongIndex = musics.size() - 1;
+                currentSongIndex = playList.size() - 1;
             }
         }
         mi.stop();
-        mi.play(musics.get(currentSongIndex), playingModule);
+        mi.play(playList.get(currentSongIndex), playingModule);
     }
 
     public void nextSong(View view) {
@@ -225,20 +233,20 @@ public class MusicActivity extends Activity {
             }
         }
         mi.stop();
-        mi.play(musics.get(currentSongIndex), playingModule);
+        mi.play(playList.get(currentSongIndex), playingModule);
     }
 
     //get the next playing song index
     private void nextIndex() {
         currentSongIndex += 1;
-        if (currentSongIndex == musics.size()) {
+        if (currentSongIndex == playList.size()) {
             currentSongIndex = 0;
         }
     }
 
     //get the index of the next playing song index
     public void randomIndex() {
-        currentSongIndex = new Random().nextInt(musics.size());
+        currentSongIndex = new Random().nextInt(playList.size());
     }
 
     public void exit(View view) {
@@ -264,7 +272,7 @@ public class MusicActivity extends Activity {
     }
 
     public static String currentSong() {
-        return musics.get(currentSongIndex);
+        return playList.get(currentSongIndex);
     }
 
 //    public void onClickToMusicList(View view) {
