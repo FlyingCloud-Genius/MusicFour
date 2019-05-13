@@ -27,7 +27,7 @@ public class ListOperationActivity extends ListActivity {
         ArrayAdapter<String> operationListAdapter = new ArrayAdapter<String>(
                 this,
                 android.R.layout.simple_list_item_1,
-                new String[] {"歌单信息", "删除", "收藏", "播放"}
+                new String[] {"information", "delete", "like", "play"}
         );
         operationList.setAdapter(operationListAdapter);
     }
